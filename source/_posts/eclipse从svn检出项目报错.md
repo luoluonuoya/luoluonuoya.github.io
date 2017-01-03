@@ -2,7 +2,7 @@
 title: eclipse从svn检出项目报错
 date: 2016-03-13 13:21:23
 categories: [Java]
-tags: [java,svn,eclipse]
+tags: [Java,svn,eclipse]
 ---
 ##### 从svn把项目导入到eclipse后出现错误，运行又没有问题，提示如下：
 ```Java

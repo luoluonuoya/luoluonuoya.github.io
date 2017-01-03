@@ -2,7 +2,7 @@
 title: Java去除Html标签
 date: 2016-11-24 17:07:43
 categories: [Java]
-tags: [java]
+tags: [Java]
 ---
 #### 普通的正则去除标签
 ```Java

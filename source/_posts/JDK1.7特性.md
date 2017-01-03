@@ -2,7 +2,7 @@
 title: JDK1.7新特性
 date: 2016-04-15 13:36:52
 categories: [Java]
-tags: [java]
+tags: [Java]
 ---
 小记jdk7新增的一些好用的小特性
 ```Java

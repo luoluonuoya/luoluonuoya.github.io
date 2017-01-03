@@ -2,7 +2,7 @@
 title: Log4j发邮件配置
 date: 2016-04-08 09:12:09
 categories: [Java]
-tags: [java]
+tags: [Java]
 ---
 引入log4j.jar包，这里解释一下三个包的关系：
 >**slf4j-api** 本质就是一个接口定义
