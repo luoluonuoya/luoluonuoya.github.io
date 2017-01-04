@@ -101,8 +101,8 @@ public class ExcelArgs {
     	DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
     	fileName = df.format(new Date()) + "_" + fileName;
     	if (null == filePath || "".equals(filePath.trim())) {
-    		// 设置默认文件生成路径
-    		filePath = "C:\\excel";
+    		// 设置默认文件生成路径（生成的文件在项目的tmp目录下）
+    		filePath = "src/main/webapp/tmp";
     	}
     	if (!(filePath.endsWith(File.separator))) {  
     		filePath += File.separator;
@@ -119,29 +119,30 @@ public class ExcelArgs {
         }  
         sheets.add(sheet);  
     }
-	public String getFileName() {
-		return fileName;
-	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public String getFilePath() {
-		return filePath;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
+    public String getFilePath() {
+        return filePath;
+    }
 
-	public String getExcelName() {
-		return filePath + fileName;
-	}
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
-	public void setExcelName(String excelName) {
-		this.excelName = excelName;
-	}  
+    public String getExcelName() {
+        return filePath + fileName;
+    }
+
+    public void setExcelName(String excelName) {
+        this.excelName = excelName;
+    }  
 	
 }
 ```
@@ -189,19 +190,19 @@ public class SheetArgs<T> {
     public int heightInPoints = 40;
     // 默认列宽（默认25）
     public int defaultColumnWidth = 20;
-	// 水平对齐（默认居中）
+    // 水平对齐（默认居中）
     public short alignment = CellStyle.ALIGN_CENTER;
-	// 垂直对齐（默认）
-	public short verticalAlignment = CellStyle.VERTICAL_CENTER;
-	// 填充信息模式和纯色填充单元（默认全填充）
-	public short fillPattern = CellStyle.SOLID_FOREGROUND;
-	// 背景色填充（默认浅黄色）
-	public short fillBackgroundColor = IndexedColors.LEMON_CHIFFON.index;
-	// 字号（默认24）
-	public short fontHeighInPoints = 24;
-	// 字体颜色（默认黑色）
-	public short fontColor = HSSFColor.BLACK.index;
-	/** 标题样式  end*/
+    // 垂直对齐（默认）
+    public short verticalAlignment = CellStyle.VERTICAL_CENTER;
+    // 填充信息模式和纯色填充单元（默认全填充）
+    public short fillPattern = CellStyle.SOLID_FOREGROUND;
+    // 背景色填充（默认浅黄色）
+    public short fillBackgroundColor = IndexedColors.LEMON_CHIFFON.index;
+    // 字号（默认24）
+    public short fontHeighInPoints = 24;
+    // 字体颜色（默认黑色）
+    public short fontColor = HSSFColor.BLACK.index;
+    /** 标题样式  end*/
 	
 }
 
@@ -283,7 +284,7 @@ public class ExcelUtil {
 	* @return void    
 	* @throws
 	 */
-	public static void exportExcel(ExcelArgs excelArgs) throws Exception {
+	public static String exportExcel(ExcelArgs excelArgs) throws Exception {
 		// 初始化存储路径
 		excelArgs.init();
 		// 声明一个工作薄  
@@ -299,9 +300,12 @@ public class ExcelUtil {
 		try(FileOutputStream fos = new FileOutputStream(excelArgs.getExcelName());) {
 			// 把内容写入流  
 			workbook.write(fos);
+			return excelArgs.getFileName();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	/**
@@ -704,6 +708,4 @@ public class ExcelTest {
 }
 ```
 ##### 效果图（为了截到完整的数据图，调过列宽）
-![](image/POI导出excel表/excel文件信息.jpg)
-
 ![](image/POI导出excel表/excel导出效果图.jpg)
