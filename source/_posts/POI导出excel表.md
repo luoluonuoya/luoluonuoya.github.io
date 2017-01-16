@@ -416,7 +416,7 @@ public class ExcelUtil {
 			        cellStyle.setFont(font);
 			        cell.setCellStyle(cellStyle);
 			        
-			        value = source.toString();
+			        value = null != source ? source.toString() : "";
 		            if (null != excelExport.dateFormat && !"".equals(excelExport.dateFormat)) {
 		            	value = new SimpleDateFormat(excelExport.dateFormat).format(source);
 		            	sheet.setColumnWidth(mySheet.defaultCol + i, 36 * 256);
