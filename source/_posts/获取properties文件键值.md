@@ -2,7 +2,7 @@
 title: spring4.0读取properties文件
 date: 2016-09-24 17:02:22
 categories: [Java]
-tags: [java]
+tags: [Java]
 ---
 ##### 若我们的项目配置了多环境
 ##### 注入properties属性，spring4.0配置，要引入
