@@ -4,7 +4,7 @@ date: 2016-08-21 12:59:58
 categories: [Java]
 tags: [Java,eclipse]
 ---
-#### eclipse在线安装svn：
+**在线安装：**
 　　打开Eclipse
 　　Help->Software Updates->find and install(如果没有这个就用help->Software Updates->Add/Remove Software即可)
 

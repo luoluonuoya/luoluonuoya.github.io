@@ -9,17 +9,22 @@ tags: [Java,Tomcat]
 **以windows为例，进入cmd终端，用命令切换进入%JAVA_HOME%/bin目录**
 
 **1.为服务器生成证书**
+```
 keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
+```
 **参数简要说明：**
-　　“D:\home\tomcat.keystore” 表示证书文件的保存路径
-　　tomcat.keystore 表示证书文件名称
-　　“-validity 36500” 表示证书有效期，36500表示100年，默认值是90天 “tomcat”为自定义证书名称
+```
+“D:\home\tomcat.keystore” 表示证书文件的保存路径
+tomcat.keystore 表示证书文件名称
+“-validity 36500” 表示证书有效期，36500表示100年，默认值是90天 “tomcat”为自定义证书名称
+```
 **输入keystore密码（必填项）**
 　　此处需要输入大于6个字符的字符串
 **您的名字与姓氏是什么？（必填项）**
 　　必须是TOMCAT部署主机的域名或者IP[如：baidu.com 或者 119.75.217.109]（就是你将来要在浏览器中输入的访问地址）
 **后面的那些都可以不填，直接敲回车，最后的主密码建议与之前keystore的密码一致）事例如下：**
-> C:\Windows\system32>keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
+```
+C:\Windows\system32>keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
 输入keystore密码：123456
 再次输入新密码：123456
 您的名字与姓氏是什么？
@@ -41,10 +46,13 @@ CN=baidu.com, OU=, O=, L=, ST=, C=CN 正确吗？  [否]：  y
         （如果和 keystore 密码相同，按回车）：
 [正在存储 D:\home\tomcat.keystore]
 C:\Windows\system32>
-
+```
  **2.为客户端生成证书（需要PKCS12格式）**
+```
 keytool -genkey -v -alias mykey -keyalg RSA -storetype PKCS12 -keystore D:\home\client.key.p12
-> C:\Windows\system32>keytool -genkey -v -alias mykey -keyalg RSA -storetype PKCS12 -keystore D:\home\client.key.p12
+```
+```
+C:\Windows\system32>keytool -genkey -v -alias mykey -keyalg RSA -storetype PKCS12 -keystore D:\home\client.key.p12
 输入keystore密码：123456
 再次输入新密码：123456
 您的名字与姓氏是什么？
@@ -64,20 +72,22 @@ CN=baidu.com, OU=, O=, L=, ST=, C=CN 正确吗？  [否]：  y
          CN=baidu.com, OU=, O=, L=, ST=, C=CN
 [正在存储 D:\home\client.key.p12]
 C:\Windows\system32>
-
+```
 之后，在D:\home\路径下，便能看到两个文件
+```
 tomcat.keystore
 client.key.p12
-
+```
 **3.双击client.key.p12安装**
 　　安装需要密码，就是刚才设置的"123456"
 　　安装过程选择“将所有的证书放入下列存储”--“个人”，下一步直至导入完成
 　　
 **4.让服务器信任客户端证书**
 先导出客户端证书为cer格式，然后再添加到keystore中，此过程需要密码，步骤如下：
-　1）keytool -export -alias mykey -keystore D:\home\client.key.p12 -storetype PKCS12 -storepass password -rfc -file D:\home\client.cer
-　2）keytool -import -v -file D:\home\client.cer -keystore D:\home\tomcat.keystore
-　　　
+```
+1）keytool -export -alias mykey -keystore D:\home\client.key.p12 -storetype PKCS12 -storepass password -rfc -file D:\home\client.cer
+2）keytool -import -v -file D:\home\client.cer -keystore D:\home\tomcat.keystore
+```
 **5.查看服务器的证书库**
 此时list命令查看服务器的证书库，可以看到两个证书，一个是服务器证书，一个是受信任的客户端证书
 　keytool -list -keystore D:\home\tomcat.keystore

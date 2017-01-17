@@ -4,9 +4,11 @@ date: 2016-07-28 11:29:07
 categories: [Java]
 tags: [Java,eclipse]
 ---
-> 直接用eclipse打包项目，如果项目有依赖的jar包，则运行时需要将生成的jar文件和存放引用包的lib文件夹放在同一个目录下，但是这种方式十分不美观，在非maven项目中，推荐使用fatjar打包项目，fatjar工具可以把引用包也引入到生成的jar文件中，使用方法不做解释，下面为使用失败的记录。
-> 
-
+```
+直接用eclipse打包项目，如果项目有依赖的jar包，则运行时需要将生成的jar文件和存放引用包的lib文件夹
+放在同一个目录下，但是这种方式十分不美观，在非maven项目中，推荐使用fatjar打包项目，
+fatjar工具可以把引用包也引入到生成的jar文件中，使用方法不做解释，下面为使用失败的记录。
+```
 ##### 因为fatjar只有0.0.31版本，而0.0.31版本在eclipse 3.4之后就再没有更新过了，导致新版本的eclipse无法使用，有以下几种解决方案
 **一、下载eclipse兼容版本插件**
 　　使用eclipse的Help>Install new software>Work with后面的Add按钮，分别填入

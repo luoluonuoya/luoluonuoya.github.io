@@ -4,8 +4,11 @@ date: 2016-08-21 16:21:16
 categories: [Java]
 tags: [Java,mybatis]
 ---
-> 在hibernate中，hibernate的一级缓存会把insert后的主键绑定到对象中，我们可以直接在session.save(user);后直接使用user.getId();的方式来取得插入后的主键，而在mybatis中，我们一般使用mapper.xml来编辑sql语句，当我们执行insert后，返回的model中并没有帮我们把主键返回
-
+```
+在hibernate中，hibernate的一级缓存会把insert后的主键绑定到对象中，我们可以直接在session.save(user);
+后直接使用user.getId();的方式来取得插入后的主键，而在mybatis中，我们一般使用mapper.xml来编辑sql语句，
+当我们执行insert后，返回的model中并没有帮我们把主键返回
+```
 使用selectKey来实现类似JDBC的getGeneratedKeys();获取主键的功能
 ```XML
 <?xml version="1.0" encoding="UTF-8" ?>

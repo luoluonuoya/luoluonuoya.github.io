@@ -4,11 +4,10 @@ date: 2016-09-24 17:02:22
 categories: [Java]
 tags: [java]
 ---
-> 若我们的项目配置了多环境
-注入properties属性，spring4.0配置，要引入
-xmlns:util="http://www.springframework.org/schema/util" 
-和
-http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+##### 若我们的项目配置了多环境
+##### 注入properties属性，spring4.0配置，要引入
+##### xmlns:util="http://www.springframework.org/schema/util"和
+##### http://www.springframework.org/schema/util/spring-util-4.0.xsd
 
 我的配置是
 ```XML

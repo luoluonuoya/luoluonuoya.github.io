@@ -5,7 +5,7 @@ categories: [Java]
 tags: [Java]
 ---
 引入log4j.jar包，这里解释一下三个包的关系：
->**slf4j-api** 本质就是一个接口定义
+**slf4j-api** 本质就是一个接口定义
 **slf4j-log4j12** 是链接slf4j-api和log4j中间的适配器。它实现了slf4j-api中StaticLoggerBinder接口，从而使得在编译时绑定的是slf4j-log4j12的getSingleton()方法
 **log4j** 是具体的日志系统。通过slf4j-log4j12初始化Log4j，达到最终日志的输出。
 
@@ -91,7 +91,9 @@ log4j.appender.MAIL.layout=org.apache.log4j.PatternLayout
 log4j.appender.MAIL.layout.ConversionPattern=[framework]%d - %c -%-4r[%t]%-5p %c %x -%m%n
 ```
 如果顺利的话可以正常的发送，但可能会有特殊情况，比如标题乱码（也可能是版本低了），则可以重写 SMTPAppender 
-> 看到配置中log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender这一句，这里就是 log4j 输出的控制类，如果有其它个性化的定制，比如认证信息的处理等，都是通过重写SMTPAppender来实现。
+
+**看到配置中log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender这一句，这里就是 log4j 输出的控制类，如果有其它个性化的定制，比如认证信息的处理等，都是通过重写SMTPAppender来实现。**
+
 ```Java
 // 邮件标题乱码问题
 import java.io.UnsupportedEncodingException;
@@ -110,4 +112,5 @@ public class EncodingSMTPAppender extends SMTPAppender {
 }
 ```
 还有一个最常见的错误，配置完后发现若发送邮件失败 log4j: ERROR Error occured while sending e-mail notification.则是发送的邮箱没有开启stmp服务
-> 像网易邮箱默认是没有开启smtp服务的，进入 邮箱-设置-POP3/SMTP/IMAP 中，把POP3/SMTP服务和IMAP/SMTP服务都勾选上
+
+**像网易邮箱默认是没有开启smtp服务的，进入 邮箱-设置-POP3/SMTP/IMAP 中，把POP3/SMTP服务和IMAP/SMTP服务都勾选上**

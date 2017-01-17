@@ -41,7 +41,7 @@ public class Test {
 ```
 在实际的开发中操作redis总是需要用到连接池，同时redis也需要加密
 先说一下windows上加密的坑
-> 
+```
 设置密码：
 redis 127.0.0.1:6379> config set requirepass test123
 查询密码：
@@ -54,15 +54,18 @@ OK
 redis 127.0.0.1:6379> config get requirepass
 1) "requirepass"
 2) "test123"
-
+```
 PS：如果配置文件中没添加密码 那么redis重启后，密码失效；所以我们需要在配置文件中配置requirepass的密码（当redis重启时密码依然有效）。
 打开redis.windows.conf配置文件，找到requirepass，然后修改如下:
-> requirepass yourpassword
+```
+requirepass yourpassword
+```
 
 然而发现在windows下，启动redis-server.exe后用redis-cli.exe登录后并不需要密码验证，原因是redis-server.exe的启动并不依赖redis.windows.conf，我的解决方法是为redis-server.exe创建一个快捷方式，然后右键属性，将目标后加上：（空格）+ redis.windows.conf，如果有更好的方法，欢迎留言。
 
 当然，如果想把redis注册成windows服务也可以
-> 注册服务
+```
+注册服务
 Redis-server.exe –service-install redis.windows.conf
 删除服务
 redis-server –service-uninstall
@@ -70,7 +73,7 @@ redis-server –service-uninstall
 redis-server –service-start
 停止服务
 redis-server –service-stop
-
+```
 下面提供jedis操作的工具类
 ```Java
 package test.util;
