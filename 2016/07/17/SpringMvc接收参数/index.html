@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SpringMvc接收参数 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SpringMvc接收对象的方式1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数request.getParameter(name);
+　
+2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数1）@PathVariable 当使用@R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMvc接收参数">
+<meta property="og:url" content="http://yoursite.com/2016/07/17/SpringMvc接收参数/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SpringMvc接收对象的方式1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数request.getParameter(name);
+　
+2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数1）@PathVariable 当使用@R">
+<meta property="og:updated_time" content="2017-01-16T07:28:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMvc接收参数">
+<meta name="twitter:description" content="SpringMvc接收对象的方式1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数request.getParameter(name);
+　
+2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数1）@PathVariable 当使用@R">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SpringMvc接收参数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/17/SpringMvc接收参数/" class="article-date">
+  <time datetime="2016-07-17T06:27:48.000Z" itemprop="datePublished">2016-07-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringMvc接收参数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="SpringMvc接收对象的方式"><a href="#SpringMvc接收对象的方式" class="headerlink" title="SpringMvc接收对象的方式"></a>SpringMvc接收对象的方式</h4><h5 id="1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application-json之类的类型就没有用了，需要读取request的流再解析出参数"><a href="#1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application-json之类的类型就没有用了，需要读取request的流再解析出参数" class="headerlink" title="1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数"></a>1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数</h5><p>request.getParameter(name);
+　</p>
+<h5 id="2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数"><a href="#2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数" class="headerlink" title="2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数"></a>2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数</h5><p><strong>1）@PathVariable </strong><br>当使用@RequestMapping URI template 样式映射时， 即 someUrl/{paramId}, 这时的paramId可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/&#123;operation&#125;"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/&#123;userId&#125;"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String operation, @PathVariable String userId, Model model)</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2）@RequestHeader </strong><br>@RequestHeader 注解，可以把Request请求header部分的值绑定到方法的参数上。<br>常见的header：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Accept:					image/webp,image/*,*/*;q=0.8</div><div class="line">Accept-Encoding:		gzip, deflate, sdch</div><div class="line">Accept-Language:		zh-CN,zh;q=0.8</div><div class="line">Host:					localhost:8080</div><div class="line">Accept-Charset          ISO-8859-1,utf-8;q=0.7,*;q=0.7</div><div class="line">Keep-Alive              300</div></pre></td></tr></table></figure></p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/getlist"</span>)  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(</span></span></div><div class="line">		@RequestHeader(<span class="string">"Accept-Encoding"</span>) String encoding, </div><div class="line">		@<span class="title">RequestHeader</span><span class="params">(<span class="string">"Keep-Alive"</span>)</span> <span class="keyword">long</span> keepAlive) &#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>3）@CookieValue </strong><br>@CookieValue 可以把Request header中关于cookie的值绑定到方法的参数上。<br>例如有如下Cookie值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSESSIONID=070c17a0028d1dcc66eba40e7781d177</div></pre></td></tr></table></figure></p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>)  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@CookieValue(<span class="string">"JSESSIONID"</span>)</span> String cookie) </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>4）@RequestParam</strong><br>@RequestParam等同于request.getParameter();<br>@RequestParam用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式为GET、POST；<br>@RequestParam有两个属性：<br>　value：用来指定要传入值的name<br>　required：用来指定参数是否必须<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.GET)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestParam(<span class="string">"userId"</span>)</span> String userId) </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>5）@RequestBody</strong><br>像ajax原生的请求就是application/json类型，此时用@RequestBody就十分合适<br>@RequestBody常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；<br><strong>但是注意springmvc4.2版本才能直接转对象，4.2之前只能接收String</strong><br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="comment">// 4.2之前接收String</span></div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestBody String body)</span> </span>&#123;</div><div class="line">		User user = (User) JSON.parse(body);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// 4.2之后接收bean</span></div><div class="line">		<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestBody User user)</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> user.getName(); </div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>6）@SessionAttributes</strong><br>@SessionAttribute用来绑定HttpSession中的attribute对象的值，便于在方法中的参数里使用。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="meta">@SessionAttributes</span>(<span class="string">"userId"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">()</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>7）@ModelAttribute</strong><br>@ModelAttribute可以用在方法上也可以用在参数上，@ModelAttribute只能获取键值对，即接收的Content-Type是from-data或者application/x-www-form等类型<br>首先是用在方法上时，相当于为request对象的model里put(“account”, Account);<br>如此在使用@RequestParam时就不需要带上参数名了<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="meta">@ModelAttribute</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestParam String userId)</span> </span>&#123;</div><div class="line">	  <span class="keyword">return</span> accountManager.findAccount(userId);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果是在参数上时，一般来说，我们需要的是request中的参数，所以这里说明一下，@ModelAttribute绑定参数的来源<br>　A） 首先是 @SessionAttributes 上绑定的attribute 对象<br>　B） 没有就查询@ModelAttribute 用于方法上时指定的model对象<br>　C） 当两种情况都没有时，new一个需要绑定的bean对象，然后把request中按名称对应的方式把值绑定到bean中。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@ModelAttribute User user)</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/17/SpringMvc接收参数/" data-id="ciy18oqfy00110c2yq6wqxm9i" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/17/open implementation异常退出/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          open implementation异常退出
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/17/Java操作redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java操作redis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/POI导出excel表/">POI导出excel表</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/27/读取jar包中的文件/">读取jar包中的文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

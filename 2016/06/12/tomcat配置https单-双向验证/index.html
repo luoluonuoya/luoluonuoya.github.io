@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>tomcat配置https单/双向验证 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="tomcat配置https双向验证以windows为例，进入cmd终端，用命令切换进入%JAVA_HOME%/bin目录
+1.为服务器生成证书1keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
+参数简要说明：123“D:\home\tomcat.keystor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat配置https单/双向验证">
+<meta property="og:url" content="http://yoursite.com/2016/06/12/tomcat配置https单-双向验证/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="tomcat配置https双向验证以windows为例，进入cmd终端，用命令切换进入%JAVA_HOME%/bin目录
+1.为服务器生成证书1keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
+参数简要说明：123“D:\home\tomcat.keystor">
+<meta property="og:updated_time" content="2017-01-17T02:30:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tomcat配置https单/双向验证">
+<meta name="twitter:description" content="tomcat配置https双向验证以windows为例，进入cmd终端，用命令切换进入%JAVA_HOME%/bin目录
+1.为服务器生成证书1keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500
+参数简要说明：123“D:\home\tomcat.keystor">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tomcat配置https单-双向验证" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/12/tomcat配置https单-双向验证/" class="article-date">
+  <time datetime="2016-06-12T02:51:28.000Z" itemprop="datePublished">2016-06-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      tomcat配置https单/双向验证
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="tomcat配置https双向验证"><a href="#tomcat配置https双向验证" class="headerlink" title="tomcat配置https双向验证"></a><strong>tomcat配置https双向验证</strong></h4><p><strong>以windows为例，进入cmd终端，用命令切换进入%JAVA_HOME%/bin目录</strong></p>
+<p><strong>1.为服务器生成证书</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500</div></pre></td></tr></table></figure></p>
+<p><strong>参数简要说明：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">“D:\home\tomcat.keystore” 表示证书文件的保存路径</div><div class="line">tomcat.keystore 表示证书文件名称</div><div class="line">“-validity 36500” 表示证书有效期，36500表示100年，默认值是90天 “tomcat”为自定义证书名称</div></pre></td></tr></table></figure></p>
+<p><strong>输入keystore密码（必填项）</strong><br>　　此处需要输入大于6个字符的字符串<br><strong>您的名字与姓氏是什么？（必填项）</strong><br>　　必须是TOMCAT部署主机的域名或者IP[如：baidu.com 或者 119.75.217.109]（就是你将来要在浏览器中输入的访问地址）<br><strong>后面的那些都可以不填，直接敲回车，最后的主密码建议与之前keystore的密码一致）事例如下：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">C:\Windows\system32&gt;keytool -genkey -v -alias tomcat -keyalg RSA -keystore D:\home\tomcat.keystore -validity 36500</div><div class="line">输入keystore密码：123456</div><div class="line">再次输入新密码：123456</div><div class="line">您的名字与姓氏是什么？</div><div class="line">  [Unknown]：  baidu.com</div><div class="line">您的组织单位名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您的组织名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您所在的城市或区域名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您所在的州或省份名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">该单位的两字母国家代码是什么</div><div class="line">  [Unknown]：  CN</div><div class="line">CN=baidu.com, OU=, O=, L=, ST=, C=CN 正确吗？  [否]：  y</div><div class="line">正在为以下对象生成 1,024 位 RSA 密钥对和自签名证书 (SHA1withRSA)（有效期为 36,500 天）:</div><div class="line">         CN=baidu.com, OU=, O=, L=, ST=, C=CN</div><div class="line">输入&lt;tomcat&gt;的主密码</div><div class="line">        （如果和 keystore 密码相同，按回车）：</div><div class="line">[正在存储 D:\home\tomcat.keystore]</div><div class="line">C:\Windows\system32&gt;</div></pre></td></tr></table></figure></p>
+<p> <strong>2.为客户端生成证书（需要PKCS12格式）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">keytool -genkey -v -alias mykey -keyalg RSA -storetype PKCS12 -keystore D:\home\client.key.p12</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">C:\Windows\system32&gt;keytool -genkey -v -alias mykey -keyalg RSA -storetype PKCS12 -keystore D:\home\client.key.p12</div><div class="line">输入keystore密码：123456</div><div class="line">再次输入新密码：123456</div><div class="line">您的名字与姓氏是什么？</div><div class="line">  [Unknown]：  baidu.com</div><div class="line">您的组织单位名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您的组织名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您所在的城市或区域名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">您所在的州或省份名称是什么？</div><div class="line">  [Unknown]：  </div><div class="line">该单位的两字母国家代码是什么</div><div class="line">  [Unknown]：  CN</div><div class="line">CN=baidu.com, OU=, O=, L=, ST=, C=CN 正确吗？  [否]：  y</div><div class="line">正在为以下对象生成 1,024 位 RSA 密钥对和自签名证书 (SHA1withRSA)（有效期为 90 天）:</div><div class="line">         CN=baidu.com, OU=, O=, L=, ST=, C=CN</div><div class="line">[正在存储 D:\home\client.key.p12]</div><div class="line">C:\Windows\system32&gt;</div></pre></td></tr></table></figure>
+<p>之后，在D:\home\路径下，便能看到两个文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tomcat.keystore</div><div class="line">client.key.p12</div></pre></td></tr></table></figure></p>
+<p><strong>3.双击client.key.p12安装</strong><br>　　安装需要密码，就是刚才设置的”123456”<br>　　安装过程选择“将所有的证书放入下列存储”–“个人”，下一步直至导入完成<br>　　<br><strong>4.让服务器信任客户端证书</strong><br>先导出客户端证书为cer格式，然后再添加到keystore中，此过程需要密码，步骤如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1）keytool -export -alias mykey -keystore D:\home\client.key.p12 -storetype PKCS12 -storepass password -rfc -file D:\home\client.cer</div><div class="line">2）keytool -import -v -file D:\home\client.cer -keystore D:\home\tomcat.keystore</div></pre></td></tr></table></figure></p>
+<p><strong>5.查看服务器的证书库</strong><br>此时list命令查看服务器的证书库，可以看到两个证书，一个是服务器证书，一个是受信任的客户端证书<br>　keytool -list -keystore D:\home\tomcat.keystore<br>　<br><strong>6.导出服务端证书为cer格式</strong><br>　keytool -keystore D:\home\tomcat.keystore -export -alias tomcat -file D:\home\tomcat.cer</p>
+<p><strong>7.安装服务端证书</strong><br>双击，安装到“将所有的证书放入下列存储”–“受信任的根证书颁发机构”</p>
+<p><strong>8.配置Tomcat服务器</strong><br>打开Tomcat根目录下的/conf/server.xml，找到Connector port=”8443”配置段，修改为如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">"8443"</span> <span class="attr">protocol</span>=<span class="string">"org.apache.coyote.http11.Http11NioProtocol"</span></span></div><div class="line">	<span class="attr">SSLEnabled</span>=<span class="string">"true"</span> <span class="attr">maxThreads</span>=<span class="string">"150"</span> <span class="attr">scheme</span>=<span class="string">"https"</span></div><div class="line">	<span class="attr">secure</span>=<span class="string">"true"</span> <span class="attr">clientAuth</span>=<span class="string">"true"</span> <span class="attr">sslProtocol</span>=<span class="string">"TLS"</span></div><div class="line">	<span class="attr">keystoreFile</span>=<span class="string">"D:\\home\\tomcat.keystore"</span> <span class="attr">keystorePass</span>=<span class="string">"123456"</span></div><div class="line">	<span class="attr">truststoreFile</span>=<span class="string">"D:\\home\\tomcat.keystore"</span> <span class="attr">truststorePass</span>=<span class="string">"123456"</span> /&gt;</div></pre></td></tr></table></figure></p>
+<p><strong>属性说明：</strong><br>　clientAuth:设置是否双向验证，默认为false，设置为true代表双向验证<br>　keystoreFile:服务器证书文件路径<br>　keystorePass:服务器证书密码<br>　truststoreFile:用来验证客户端证书的根证书，此例中就是服务器证书<br>　truststorePass:根证书密码</p>
+<p><strong>9.最后在项目的web.xml中  前加入，之后就可以用8443端口访问https请求了</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">security-constraint</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">web-resource-collection</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">web-resource-name</span>&gt;</span>Protected Context<span class="tag">&lt;/<span class="name">web-resource-name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">web-resource-collection</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">user-data-constraint</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">transport-guarantee</span>&gt;</span>CONFIDENTIAL<span class="tag">&lt;/<span class="name">transport-guarantee</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">user-data-constraint</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">security-constraint</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h4 id="省去上方的2、3、4、5步骤即为单项配置"><a href="#省去上方的2、3、4、5步骤即为单项配置" class="headerlink" title="省去上方的2、3、4、5步骤即为单项配置"></a><strong>省去上方的2、3、4、5步骤即为单项配置</strong></h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/12/tomcat配置https单-双向验证/" data-id="ciy18oqgt003a0c2yfx0la89p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/09/原生数据库访问/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          原生数据库访问
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/11/StaleStateException/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">StaleStateException</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/POI导出excel表/">POI导出excel表</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/27/读取jar包中的文件/">读取jar包中的文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

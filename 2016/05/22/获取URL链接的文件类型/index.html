@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>获取URL链接的文件类型 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="事例中的URL原本是一个格式为wav的音频文件，file type: audio/x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection.guessContentTypeFromStream方法来做判断1234567891011121314151617181920212223242526272829303132333435363738packag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取URL链接的文件类型">
+<meta property="og:url" content="http://yoursite.com/2016/05/22/获取URL链接的文件类型/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="事例中的URL原本是一个格式为wav的音频文件，file type: audio/x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection.guessContentTypeFromStream方法来做判断1234567891011121314151617181920212223242526272829303132333435363738packag">
+<meta property="og:updated_time" content="2017-01-03T01:23:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="获取URL链接的文件类型">
+<meta name="twitter:description" content="事例中的URL原本是一个格式为wav的音频文件，file type: audio/x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection.guessContentTypeFromStream方法来做判断1234567891011121314151617181920212223242526272829303132333435363738packag">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-获取URL链接的文件类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/22/获取URL链接的文件类型/" class="article-date">
+  <time datetime="2016-05-22T03:46:01.000Z" itemprop="datePublished">2016-05-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      获取URL链接的文件类型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="事例中的URL原本是一个格式为wav的音频文件，file-type-audio-x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection-guessContentTypeFromStream方法来做判断"><a href="#事例中的URL原本是一个格式为wav的音频文件，file-type-audio-x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection-guessContentTypeFromStream方法来做判断" class="headerlink" title="事例中的URL原本是一个格式为wav的音频文件，file type: audio/x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection.guessContentTypeFromStream方法来做判断"></a>事例中的URL原本是一个格式为wav的音频文件，file type: audio/x-wav，在保存文件的时候需要判断url是否还有效，这个时候就可以用到HttpURLConnection.guessContentTypeFromStream方法来做判断</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> test;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedInputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</div><div class="line"><span class="keyword">import</span> java.net.MalformedURLException;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		HttpURLConnection urlConn = <span class="keyword">null</span>;</div><div class="line">		URL url = <span class="keyword">null</span>;</div><div class="line">		BufferedInputStream bis = <span class="keyword">null</span>;</div><div class="line">     </div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">        	url = <span class="keyword">new</span> URL(<span class="string">"http://www.ucpaas.com/fileserver/record/aee9011d2ee0f21f67310422ce62e71c_1464078387210374_20160524?sig=648DA4EC9E16704C44E5424D7A29CCD2"</span>); </div><div class="line">			urlConn = (HttpURLConnection) url.openConnection();</div><div class="line">			urlConn.connect();</div><div class="line">			bis = <span class="keyword">new</span> BufferedInputStream(urlConn.getInputStream());</div><div class="line">			<span class="comment">// HttpURLConnection.guessContentTypeFromStream 可以获取流的类型</span></div><div class="line">			System.out.println(<span class="string">"file type: "</span> + HttpURLConnection.guessContentTypeFromStream(bis));</div><div class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			<span class="keyword">if</span>(bis != <span class="keyword">null</span>) &#123;</div><div class="line">				<span class="keyword">try</span> &#123;</div><div class="line">					bis.close();</div><div class="line">				&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台打印结果：file type: text/html</p>
+<hr>
+<h5 id="还可以使用下面这种方式获取文件类型"><a href="#还可以使用下面这种方式获取文件类型" class="headerlink" title="还可以使用下面这种方式获取文件类型"></a>还可以使用下面这种方式获取文件类型</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> test;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.net.MalformedURLException;</div><div class="line"><span class="keyword">import</span> java.net.URL;</div><div class="line"><span class="keyword">import</span> java.net.URLConnection;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		URL url = <span class="keyword">null</span>;</div><div class="line">		URLConnection conn = <span class="keyword">null</span>;</div><div class="line">     </div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">        	url = <span class="keyword">new</span> URL(<span class="string">"http://www.ucpaas.com/fileserver/record/aee9011d2ee0f21f67310422ce62e71c_1464078387210374_20160524?sig=648DA4EC9E16704C44E5424D7A29CCD2"</span>); </div><div class="line">        	conn = url.openConnection();</div><div class="line">			System.out.println(<span class="string">"file type: "</span> + conn.getContentType());</div><div class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台打印结果：file type: text/html;charset=utf-8</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/22/获取URL链接的文件类型/" data-id="ciy18oqgt002y0c2yjh7fo4fe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/11/StaleStateException/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          StaleStateException
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/01/mysql 1044 错误/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mysql 1044 错误</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/POI导出excel表/">POI导出excel表</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/27/读取jar包中的文件/">读取jar包中的文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

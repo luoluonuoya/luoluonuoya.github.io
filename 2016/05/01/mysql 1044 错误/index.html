@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql 1044 错误 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="不小心把 mysql 的 ‘root@localhost’ 权限都删了，处理过程记录12345【报错】#1044 - Access denied for user &apos;root&apos;@&apos;localhost&apos; to database &apos;mysql&apos; 根据报错的内容在网上搜索出处理方法，在my.ini中的[mysqld]中添加 #skip-grant-tables --授权表，可以在忘记密码的时候使用 sk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql 1044 错误">
+<meta property="og:url" content="http://yoursite.com/2016/05/01/mysql 1044 错误/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="不小心把 mysql 的 ‘root@localhost’ 权限都删了，处理过程记录12345【报错】#1044 - Access denied for user &apos;root&apos;@&apos;localhost&apos; to database &apos;mysql&apos; 根据报错的内容在网上搜索出处理方法，在my.ini中的[mysqld]中添加 #skip-grant-tables --授权表，可以在忘记密码的时候使用 sk">
+<meta property="og:updated_time" content="2016-12-29T09:14:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql 1044 错误">
+<meta name="twitter:description" content="不小心把 mysql 的 ‘root@localhost’ 权限都删了，处理过程记录12345【报错】#1044 - Access denied for user &apos;root&apos;@&apos;localhost&apos; to database &apos;mysql&apos; 根据报错的内容在网上搜索出处理方法，在my.ini中的[mysqld]中添加 #skip-grant-tables --授权表，可以在忘记密码的时候使用 sk">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mysql 1044 错误" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/01/mysql 1044 错误/" class="article-date">
+  <time datetime="2016-05-01T15:11:43.000Z" itemprop="datePublished">2016-05-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/mysql/">mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mysql 1044 错误
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>不小心把 mysql 的 ‘root@localhost’ 权限都删了，处理过程记录<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">【报错】#1044 - Access denied for user 'root'@'localhost' to database 'mysql'</div><div class="line"> 根据报错的内容在网上搜索出处理方法，在my.ini中的[mysqld]中添加</div><div class="line"> #skip-grant-tables --授权表，可以在忘记密码的时候使用</div><div class="line"> skip-external-locking --是跳过外部锁定</div><div class="line"> skip-name-resolve --禁止DNS解析</div></pre></td></tr></table></figure></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">【报错】 #1130 - Host '127.0.0.1' is not allowed to connect to this MySQL server</div><div class="line"> 注释掉 skip-name-resolve 后不报错了，</div><div class="line"> 但是又是之前的问题，</div><div class="line"> 于是打开 skip-grant-tables </div><div class="line"> 解决，可以打开数据库了，重新为用户加上权限，保存</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">【报错】#1290 -the mysql server is running with the --skip-grant-tables option so it cannot execute this statement</div><div class="line">字面意思是说skip-grant-tables这个开着的时候就不可更改</div><div class="line">网上查找答案，先执行flush privileges后再次授权，</div><div class="line"></div><div class="line">flush privileges 命令本质上的作用是将当前user和privilige表中的用户信息/权限设置从mysql库(MySQL数据库的内置库)中提取到内存里。MySQL用户数据和权限有修改后，希望在"不重启MySQL服务"的情况下直接生效，那么就需要执行这个命令。通常是在修改ROOT帐号的设置后，怕重启后无法再登录进来，那么直接flush之后就可以看权限设置是否生效。而不必冒太大风险。</div><div class="line"></div><div class="line">继续报原来1044的错误</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">【另寻思路】关掉mysql服务，到其他安装了Mysql的服务器（前提是要知道该服务器上Mysql的root用户密码），打开[Mysql的安装目录/var/mysql]，将其中的user.frm、user.MYD、user.MYI三个文件拷贝到出问题服务器的[Mysql的安装目录/var/mysql]目录中。然后重启服务。</div><div class="line"></div><div class="line">仍然不行</div><div class="line"></div><div class="line">直接将mysql数据库中的user表中的所有N改为Y，注释掉skip-grant-tables重启服务，搞定。</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">【总结】首先，所有更改配置文件的操作都需要关服务修改后重启服务才能保证配置生效。</div><div class="line">关闭mysql服务，在my.ini的[mysqld]中添加skip-grant-tables，打开服务，然后保证能看到用户下所有数据库后，</div><div class="line">根据#1044 - Access denied for user 'root'@'localhost' to database 'mysql' 这句信息的字面意思，修改'mysql'数据库中的user表，将其中为N权限的全部手动改为Y，关服务，把skip-grant-tables注释掉，重启服务。</div></pre></td></tr></table></figure>
+<p>遇到的其它错误情况<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">【报错】The user specified as a definer ('root'@'%') does not exist</div><div class="line"> 出现该问题的原因是('root'@'%')没有找到，查看数据库，发现当前登录的是('root'@'localhost')。</div><div class="line"> </div><div class="line"> 报错原因：</div><div class="line"> 数据库中的视图跟存储过程，之前是在另一个数据库使用('root'@'%')登录的时候创建的，且安全性是definer，</div><div class="line"> 备份到新的数据库的时候，当前的('root'@'localhost')没有足够的权限去操作，所以只需把视图和存储过程高级设置中的的安全性选项改为invoker即可。</div><div class="line"></div><div class="line"> DEFINER的作用是用于指明存储过程是由哪个用户定义的;</div><div class="line"> INVOKER用于指定哪些用户有调用存储过程的权限;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/01/mysql 1044 错误/" data-id="ciy18oqgd002b0c2ypuacrel2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/05/22/获取URL链接的文件类型/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          获取URL链接的文件类型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/16/判断浏览器版本/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">判断浏览器版本</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/POI导出excel表/">POI导出excel表</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/27/读取jar包中的文件/">读取jar包中的文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

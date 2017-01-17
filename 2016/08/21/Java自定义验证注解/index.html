@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java自定义验证注解 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="元注解：Java5定义了4个标准的meta-annotation类型　1、@Target：表示Annotation所修饰的对象范围    　取值(ElementType)有：　　　1）CONSTRUCTOR:用于描述构造器　　　2）FIELD:用于描述域　　　3）LOCAL_VARIABLE:用于描述局部变量　　　4）METHOD:用于描述方法　　　5）PACKAGE:用于描述包　　　6）PARA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java自定义验证注解">
+<meta property="og:url" content="http://yoursite.com/2016/08/21/Java自定义验证注解/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="元注解：Java5定义了4个标准的meta-annotation类型　1、@Target：表示Annotation所修饰的对象范围    　取值(ElementType)有：　　　1）CONSTRUCTOR:用于描述构造器　　　2）FIELD:用于描述域　　　3）LOCAL_VARIABLE:用于描述局部变量　　　4）METHOD:用于描述方法　　　5）PACKAGE:用于描述包　　　6）PARA">
+<meta property="og:updated_time" content="2017-01-16T08:59:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java自定义验证注解">
+<meta name="twitter:description" content="元注解：Java5定义了4个标准的meta-annotation类型　1、@Target：表示Annotation所修饰的对象范围    　取值(ElementType)有：　　　1）CONSTRUCTOR:用于描述构造器　　　2）FIELD:用于描述域　　　3）LOCAL_VARIABLE:用于描述局部变量　　　4）METHOD:用于描述方法　　　5）PACKAGE:用于描述包　　　6）PARA">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java自定义验证注解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/21/Java自定义验证注解/" class="article-date">
+  <time datetime="2016-08-21T08:21:16.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java自定义验证注解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>元注解：Java5定义了4个标准的meta-annotation类型</strong><br>　<strong>1、@Target：</strong>表示Annotation所修饰的对象范围<br>    　取值(ElementType)有：<br>　　　1）CONSTRUCTOR:用于描述构造器<br>　　　2）FIELD:用于描述域<br>　　　3）LOCAL_VARIABLE:用于描述局部变量<br>　　　4）METHOD:用于描述方法<br>　　　5）PACKAGE:用于描述包<br>　　　6）PARAMETER:用于描述参数<br>　　　7）TYPE:用于描述类、接口(包括注解类型) 或enum声明<br>　<strong>2、@Retention：</strong>表示Annotation被保留的时间长短<br>　    　取值(RetentionPoicy)有：<br>　　　1）SOURCE:在源文件中有效（即源文件保留）<br>　　　2）CLASS:在class文件中有效（即class保留）<br>　　　3）RUNTIME:在运行时有效（即运行时保留）<br>　<strong>3、@Documented：</strong>用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。Documented是一个标记注解，没有成员<br>　<strong>4、@Inherited：</strong>阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类</p>
+<p><strong>hibernate的@Valid注解为我们提供了很多的验证方式，但是并不能完全满足我们的需求</strong><br>如下的一个bean，需要联合起来判断，上下午不能同时为空，当开始/结束时间不为空时，结束/开始时间也不能为空<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.sq580.mall.goods.web.vo;</div><div class="line"><span class="comment">/**  </span></div><div class="line"> * <span class="doctag">@Title</span>: DayTime.java</div><div class="line"> * <span class="doctag">@Package</span> com.sq580.mall.goods.web.vo</div><div class="line"> * <span class="doctag">@company</span>：     社区580</div><div class="line"> * <span class="doctag">@Description</span>: TODO</div><div class="line"> * <span class="doctag">@author</span> zfs</div><div class="line"> * <span class="doctag">@date</span> 2016年11月5日 下午2:05:52</div><div class="line"> * <span class="doctag">@version</span> V1.0  </div><div class="line"> */</div><div class="line"><span class="meta">@DateTimeNotNull</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DayTime</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String morningStartDateTime;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> String morningEndDateTime;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> String afternoonStartDateTime;</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> String afternoonEndDateTime;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMorningStartDateTime</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> morningStartDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMorningStartDateTime</span><span class="params">(String morningStartDateTime)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.morningStartDateTime = morningStartDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getMorningEndDateTime</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> morningEndDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMorningEndDateTime</span><span class="params">(String morningEndDateTime)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.morningEndDateTime = morningEndDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getMorningNum</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> morningNum;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMorningNum</span><span class="params">(Integer morningNum)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.morningNum = morningNum;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAfternoonStartDateTime</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> afternoonStartDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAfternoonStartDateTime</span><span class="params">(String afternoonStartDateTime)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.afternoonStartDateTime = afternoonStartDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getAfternoonEndDateTime</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> afternoonEndDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAfternoonEndDateTime</span><span class="params">(String afternoonEndDateTime)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.afternoonEndDateTime = afternoonEndDateTime;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getAfternoonNum</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> afternoonNum;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAfternoonNum</span><span class="params">(Integer afternoonNum)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.afternoonNum = afternoonNum;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"DayTime [morningStartDateTime="</span> + morningStartDateTime</div><div class="line">				+ <span class="string">", morningEndDateTime="</span> + morningEndDateTime</div><div class="line">				+ <span class="string">", morningNum="</span> + morningNum + <span class="string">", afternoonStartDateTime="</span></div><div class="line">				+ afternoonStartDateTime + <span class="string">", afternoonEndDateTime="</span></div><div class="line">				+ afternoonEndDateTime + <span class="string">", afternoonNum="</span> + afternoonNum + <span class="string">"]"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>定义一个验证接口（标准格式）<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">package test;</div><div class="line"></div><div class="line">import java.lang.annotation.Documented;</div><div class="line">import java.lang.annotation.Retention;</div><div class="line">import java.lang.annotation.Target;</div><div class="line"></div><div class="line">import javax.validation.Constraint;</div><div class="line">import javax.validation.Payload;</div><div class="line"></div><div class="line">import test.DayTimeValid;</div><div class="line"></div><div class="line">@Constraint(validatedBy = DayTimeValid.class)</div><div class="line">@Target( &#123;</div><div class="line">	java.lang.annotation.ElementType.METHOD,    </div><div class="line">    java.lang.annotation.ElementType.FIELD,</div><div class="line">    java.lang.annotation.ElementType.TYPE</div><div class="line">&#125; )</div><div class="line">@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)    </div><div class="line">@Documented</div><div class="line">public @interface DateTimeNotNull &#123;</div><div class="line"></div><div class="line">	String message() default "&#123;时间不能为空！&#125;";</div><div class="line">	</div><div class="line">	Class&lt;?&gt;[] groups() default &#123;&#125;;</div><div class="line">	Class&lt;? extends Payload&gt;[] payload() default &#123;&#125;;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>验证类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> test;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.text.ParseException;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.validation.ConstraintValidator;</div><div class="line"><span class="keyword">import</span> javax.validation.ConstraintValidatorContext;</div><div class="line"></div><div class="line"><span class="keyword">import</span> test.DayTime;</div><div class="line"><span class="keyword">import</span> test.DateTimeNotNull;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DayTimeValid</span> <span class="keyword">implements</span> <span class="title">ConstraintValidator</span>&lt;<span class="title">DateTimeNotNull</span>, <span class="title">DayTime</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"HH:mm"</span>);</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(DayTimeVo obj)</span> </span>&#123;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(DayTime daytime,</span></span></div><div class="line">			ConstraintValidatorContext constraintValidatorContext) &#123;</div><div class="line">		constraintValidatorContext.disableDefaultConstraintViolation();</div><div class="line">		<span class="keyword">if</span> (daytime.getMorningStartDateTime() == <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getMorningEndDateTime() == <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getAfternoonStartDateTime() == <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getAfternoonEndDateTime() == <span class="keyword">null</span>) &#123;</div><div class="line">			constraintValidatorContext.buildConstraintViolationWithTemplate(</div><div class="line">					<span class="string">"服务时间不能为空！"</span>).addConstraintViolation();</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getMorningStartDateTime() == <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getMorningEndDateTime() != <span class="keyword">null</span>) &#123;</div><div class="line">			constraintValidatorContext.buildConstraintViolationWithTemplate(</div><div class="line">					<span class="string">"上午开始时间不能为空！"</span>).addConstraintViolation();</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getMorningStartDateTime() != <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getMorningEndDateTime() == <span class="keyword">null</span>) &#123;</div><div class="line">			constraintValidatorContext.buildConstraintViolationWithTemplate(</div><div class="line">					<span class="string">"上午结束时间不能为空！"</span>).addConstraintViolation();</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getAfternoonStartDateTime() == <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getAfternoonEndDateTime() != <span class="keyword">null</span>) &#123;</div><div class="line">			constraintValidatorContext.buildConstraintViolationWithTemplate(</div><div class="line">					<span class="string">"下午开始时间不能为空！"</span>).addConstraintViolation();</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getAfternoonStartDateTime() != <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getAfternoonEndDateTime() == <span class="keyword">null</span>) &#123;</div><div class="line">			constraintValidatorContext.buildConstraintViolationWithTemplate(</div><div class="line">					<span class="string">"下午结束时间不能为空！"</span>).addConstraintViolation();</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getMorningStartDateTime() != <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getMorningEndDateTime() != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				sdf.parse(daytime.getMorningStartDateTime());</div><div class="line">			&#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">				constraintValidatorContext</div><div class="line">						.buildConstraintViolationWithTemplate(<span class="string">"上午开始时间格式不正确！"</span>)</div><div class="line">						.addConstraintViolation();</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				sdf.parse(daytime.getMorningEndDateTime());</div><div class="line">			&#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">				constraintValidatorContext</div><div class="line">						.buildConstraintViolationWithTemplate(<span class="string">"上午结束时间格式不正确！"</span>)</div><div class="line">						.addConstraintViolation();</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (daytime.getAfternoonStartDateTime() != <span class="keyword">null</span></div><div class="line">				&amp;&amp; daytime.getAfternoonEndDateTime() != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				sdf.parse(daytime.getAfternoonStartDateTime());</div><div class="line">			&#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">				constraintValidatorContext</div><div class="line">						.buildConstraintViolationWithTemplate(<span class="string">"下午开始时间格式不正确！"</span>)</div><div class="line">						.addConstraintViolation();</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				sdf.parse(daytime.getAfternoonEndDateTime());</div><div class="line">			&#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">				constraintValidatorContext</div><div class="line">						.buildConstraintViolationWithTemplate(<span class="string">"下午结束时间格式不正确！"</span>)</div><div class="line">						.addConstraintViolation();</div><div class="line">				<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/21/Java自定义验证注解/" data-id="ciy18oqfi000q0c2yjy5k3mck" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/24/获取properties文件键值/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          spring4.0读取properties文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/21/Mybatis执行insert后获取主键方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mybatis执行insert后获取主键方式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/POI导出excel表/">POI导出excel表</a>
+          </li>
+        
+          <li>
+            <a href="/2016/11/27/读取jar包中的文件/">读取jar包中的文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
