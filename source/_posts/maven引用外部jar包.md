@@ -1,5 +1,5 @@
 ---
-title: maven打包可执行项目
+title: maven引用外部jar包
 date: 2017-01-17 15:20:15
 categories: [Java]
 tags: [Java,maven]
