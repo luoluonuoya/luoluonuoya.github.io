@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java下载文件损坏问题 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题：下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client12345678910111213141516171819202122@Requ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java下载文件损坏问题">
+<meta property="og:url" content="http://yoursite.com/2017/04/21/Java下载文件损坏问题/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题：下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client12345678910111213141516171819202122@Requ">
+<meta property="og:updated_time" content="2017-04-21T06:53:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java下载文件损坏问题">
+<meta name="twitter:description" content="开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题：下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client12345678910111213141516171819202122@Requ">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Java下载文件损坏问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/21/Java下载文件损坏问题/" class="article-date">
+  <time datetime="2017-04-21T06:30:19.000Z" itemprop="datePublished">2017-04-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java下载文件损坏问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题："><a href="#开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题：" class="headerlink" title="开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题："></a>开发的过程中经常需要导出各种报表，生成表的过程此处不表。说说下载遇到的问题：</h4><h5 id="下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client"><a href="#下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client" class="headerlink" title="下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client"></a>下载可以分为2种，一种是将文件保存到某个位置，然后返回url让client进行访问下载，但大多数时候我们并不需要这些文件，这个时候就浪费了磁盘空间，即便后面做了清理，也是比较不友好的一种情况。所以我们一般都是直接以流的形式将文件传给client</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/export"</span>)</div><div class="line"><span class="keyword">public</span> ResponseEntity&lt;<span class="keyword">byte</span>[]&gt; export() &#123;</div><div class="line">	</div><div class="line">	<span class="keyword">byte</span>[] body = <span class="keyword">null</span>;</div><div class="line">	String url = <span class="string">"你的资源文件url"</span>;</div><div class="line">	HttpURLConnection conn = (HttpURLConnection) (<span class="keyword">new</span> URL(url)).openConnection();</div><div class="line">	<span class="comment">// 不管你是读本地文件，网络文件还是Workbook等等，这里以网络文件为例</span></div><div class="line">	InputStream in = conn.getInputStream();</div><div class="line"></div><div class="line">	body = <span class="keyword">new</span> <span class="keyword">byte</span>[in.available()];</div><div class="line">	in.read(body);</div><div class="line">        </div><div class="line">	HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</div><div class="line">	<span class="comment">// 响应头的名字和响应头的值</span></div><div class="line">	headers.add(<span class="string">"Content-Disposition"</span>, <span class="string">"attachment;filename="</span> + <span class="string">"文件名，要加后缀"</span>);</div><div class="line">        </div><div class="line">	HttpStatus statusCode = HttpStatus.OK;</div><div class="line">        </div><div class="line">	ResponseEntity&lt;<span class="keyword">byte</span>[]&gt; response = <span class="keyword">new</span> ResponseEntity&lt;<span class="keyword">byte</span>[]&gt;(body, headers, statusCode);</div><div class="line">	<span class="keyword">return</span> response;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="以上的方法可以基本满足下载的功能，但是我在实际开发中导出excel文件，发现下载的Excel文件打开的时候已经损坏了，本来是读取HSSFWorkbook直接返回的，为了方便排查，把生成的excel保存在了本地再执行响应，发现本地的excel打开是正常的，而下载后的却是损坏的，后来查阅了资料发现，如果一次性将流转为byte可能会有丢失问题，于是改用如下方式，将流先缓存包装起来，再返回，通过。"><a href="#以上的方法可以基本满足下载的功能，但是我在实际开发中导出excel文件，发现下载的Excel文件打开的时候已经损坏了，本来是读取HSSFWorkbook直接返回的，为了方便排查，把生成的excel保存在了本地再执行响应，发现本地的excel打开是正常的，而下载后的却是损坏的，后来查阅了资料发现，如果一次性将流转为byte可能会有丢失问题，于是改用如下方式，将流先缓存包装起来，再返回，通过。" class="headerlink" title="以上的方法可以基本满足下载的功能，但是我在实际开发中导出excel文件，发现下载的Excel文件打开的时候已经损坏了，本来是读取HSSFWorkbook直接返回的，为了方便排查，把生成的excel保存在了本地再执行响应，发现本地的excel打开是正常的，而下载后的却是损坏的，后来查阅了资料发现，如果一次性将流转为byte可能会有丢失问题，于是改用如下方式，将流先缓存包装起来，再返回，通过。"></a>以上的方法可以基本满足下载的功能，但是我在实际开发中导出excel文件，发现下载的Excel文件打开的时候已经损坏了，本来是读取HSSFWorkbook直接返回的，为了方便排查，把生成的excel保存在了本地再执行响应，发现本地的excel打开是正常的，而下载后的却是损坏的，后来查阅了资料发现，如果一次性将流转为byte可能会有丢失问题，于是改用如下方式，将流先缓存包装起来，再返回，通过。</h5><h4 id="修改代码如下"><a href="#修改代码如下" class="headerlink" title="修改代码如下"></a>修改代码如下</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">HttpURLConnection conn = (HttpURLConnection) (<span class="keyword">new</span> URL(url)).openConnection();</div><div class="line">InputStream in = conn.getInputStream();</div><div class="line">	</div><div class="line">ByteArrayOutputStream swapStream = <span class="keyword">new</span> ByteArrayOutputStream();  </div><div class="line"><span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];  </div><div class="line"><span class="keyword">int</span> len = <span class="number">0</span>;  </div><div class="line"><span class="keyword">while</span> ((len = in.read(buff, <span class="number">0</span>, <span class="number">100</span>)) &gt; <span class="number">0</span>) &#123;  </div><div class="line">	swapStream.write(buff, <span class="number">0</span>, len);  </div><div class="line">&#125;  </div><div class="line"><span class="keyword">byte</span>[] body = swapStream.toByteArray();</div><div class="line">       </div><div class="line">HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</div><div class="line"><span class="comment">// 响应头的名字和响应头的值</span></div><div class="line">headers.add(<span class="string">"Content-Disposition"</span>, <span class="string">"attachment;filename="</span> + fileName);</div><div class="line">       </div><div class="line">HttpStatus statusCode = HttpStatus.OK;</div><div class="line">       </div><div class="line">ResponseEntity&lt;<span class="keyword">byte</span>[]&gt; response = <span class="keyword">new</span> ResponseEntity&lt;<span class="keyword">byte</span>[]&gt;(body, headers, statusCode);</div><div class="line"><span class="keyword">return</span> response;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/21/Java下载文件损坏问题/" data-id="cj1rhupnv00070c2yihy4ptte" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/24/Spring boot的入门使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Spring boot的入门使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/21/Java下载文件损坏问题/">Java下载文件损坏问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/24/Spring boot的入门使用/">Spring boot的入门使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven打包可执行项目/">maven打包可执行项目</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/17/maven引用外部jar包/">maven引用外部jar包</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/14/SpringMvc整合Swagger UI/">SpringMvc整合Swagger UI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

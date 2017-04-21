@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: excel | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/excel/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
@@ -61,38 +61,56 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/15/Java操作Excel/" class="archive-article-date">
-  <time datetime="2016-03-15T13:19:09.000Z" itemprop="datePublished">Mar 15</time>
+    <article id="post-eclipse从svn检出项目报错" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/13/eclipse从svn检出项目报错/" class="article-date">
+  <time datetime="2016-03-13T05:21:23.000Z" itemprop="datePublished">2016-03-13</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/15/Java操作Excel/">Java操作Excel工具</a>
+      <a class="article-title" href="/2016/03/13/eclipse从svn检出项目报错/">eclipse从svn检出项目报错</a>
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="从svn把项目导入到eclipse后出现错误，运行又没有问题，提示如下："><a href="#从svn把项目导入到eclipse后出现错误，运行又没有问题，提示如下：" class="headerlink" title="从svn把项目导入到eclipse后出现错误，运行又没有问题，提示如下："></a>从svn把项目导入到eclipse后出现错误，运行又没有问题，提示如下：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Description	Resource	Path	Location	Type</div><div class="line">Target runtime com.genuitec.embedded.tomcat.runtime.v70 is not defined.	XXX		</div><div class="line">Unknown	Faceted Project Problem</div></pre></td></tr></table></figure>
+<h5 id="解决方法：找到项目目录下的-settings-org-eclipse-wst-common-project-facet-core-xml文件"><a href="#解决方法：找到项目目录下的-settings-org-eclipse-wst-common-project-facet-core-xml文件" class="headerlink" title="解决方法：找到项目目录下的.settings/org.eclipse.wst.common.project.facet.core.xml文件"></a>解决方法：找到项目目录下的.settings/org.eclipse.wst.common.project.facet.core.xml文件</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">faceted-project</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 将这一句删除后刷新一下项目即可 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">runtime</span> <span class="attr">name</span>=<span class="string">"com.genuitec.embedded.tomcat.runtime.v70"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">fixed</span> <span class="attr">facet</span>=<span class="string">"jst.web"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">fixed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">fixed</span> <span class="attr">facet</span>=<span class="string">"java"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"java"</span> <span class="attr">version</span>=<span class="string">"1.7"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"jst.web"</span> <span class="attr">version</span>=<span class="string">"3.0"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">installed</span> <span class="attr">facet</span>=<span class="string">"wst.jsdt.web"</span> <span class="attr">version</span>=<span class="string">"1.0"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">faceted-project</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>原因：新导入的工程出错的可能性非常高，但大多数都是缺少jar包导致的。还有一种缺少或者是错误的类库（比如JDK、Tomcat等等）。这里是因为跟项目原先导出时所使用的Tomcat冲突了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/13/eclipse从svn检出项目报错/" data-id="cj1rhupp1001q0c2yec4gv9fy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
-  
-  
-    </div></section>
+
+
   
 
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
 </section>
         
           <aside id="sidebar">
