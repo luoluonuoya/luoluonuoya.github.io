@@ -394,6 +394,8 @@ public class ExcelUtil {
 		List<T> datas = mySheet.source;
 		rowNumber = mySheet.endRow + 2;
 		if (null != datas && !datas.isEmpty() && 0 < datas.size()) {
+			// 这个放循环里面的话实例Excel超过4000行会报错
+			CellStyle cellStyle = workbook.createCellStyle();
 			for (Object data : datas) {
 				row = sheet.createRow(rowNumber++);
 				for (int i = 0; i < columnlength; i++) {
@@ -407,7 +409,6 @@ public class ExcelUtil {
 					field.setAccessible(true);
 					source = field.get(data);
 					// 单元格样式
-					CellStyle cellStyle = workbook.createCellStyle();
 					cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
 					cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 			        Font font = workbook.createFont();
