@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Angularjs内置过滤器 | Hexo</title>
+  <title>使用redis维护token | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="currency（货币处理）：&amp;#123;{ num | currency:’¥;’}}date（日期格式化）：&amp;#123;{date | date:’yyyy-MM-dd hh:mm:ss EEEE’}}filter（匹配子串）：&amp;#123;{ childrenArray | filter : ‘a’ }} // 匹配属性值中含有a的&amp;#123;{ childrenArray | filter">
+  <meta name="description" content="用redis维护token的思路：存入12345678// 生成tokenString token = UUID.randomUUID().toString();// 将对象转为Json串String json = JacksonUtils.newInstance().obj2json(user);// 以token为key，对象为value缓存到redisjedisUtils.set(token">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Angularjs内置过滤器">
-<meta property="og:url" content="http://yoursite.com/2016/07/17/Angularjs内置过滤器/index.html">
+<meta property="og:title" content="使用redis维护token">
+<meta property="og:url" content="http://yoursite.com/2017/05/03/使用redis维护token/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="currency（货币处理）：&amp;#123;{ num | currency:’¥;’}}date（日期格式化）：&amp;#123;{date | date:’yyyy-MM-dd hh:mm:ss EEEE’}}filter（匹配子串）：&amp;#123;{ childrenArray | filter : ‘a’ }} // 匹配属性值中含有a的&amp;#123;{ childrenArray | filter">
-<meta property="og:updated_time" content="2017-01-17T08:09:57.000Z">
+<meta property="og:description" content="用redis维护token的思路：存入12345678// 生成tokenString token = UUID.randomUUID().toString();// 将对象转为Json串String json = JacksonUtils.newInstance().obj2json(user);// 以token为key，对象为value缓存到redisjedisUtils.set(token">
+<meta property="og:updated_time" content="2017-05-03T09:23:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Angularjs内置过滤器">
-<meta name="twitter:description" content="currency（货币处理）：&amp;#123;{ num | currency:’¥;’}}date（日期格式化）：&amp;#123;{date | date:’yyyy-MM-dd hh:mm:ss EEEE’}}filter（匹配子串）：&amp;#123;{ childrenArray | filter : ‘a’ }} // 匹配属性值中含有a的&amp;#123;{ childrenArray | filter">
+<meta name="twitter:title" content="使用redis维护token">
+<meta name="twitter:description" content="用redis维护token的思路：存入12345678// 生成tokenString token = UUID.randomUUID().toString();// 将对象转为Json串String json = JacksonUtils.newInstance().obj2json(user);// 以token为key，对象为value缓存到redisjedisUtils.set(token">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -63,14 +63,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Angularjs内置过滤器" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-使用redis维护token" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/07/17/Angularjs内置过滤器/" class="article-date">
-  <time datetime="2016-07-17T03:45:42.000Z" itemprop="datePublished">2016-07-17</time>
+    <a href="/2017/05/03/使用redis维护token/" class="article-date">
+  <time datetime="2017-05-03T09:23:40.000Z" itemprop="datePublished">2017-05-03</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/AngularJs/">AngularJs</a>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
   </div>
 
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Angularjs内置过滤器
+      使用redis维护token
     </h1>
   
 
@@ -89,15 +89,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>currency（货币处理）：</strong><br>&#123;{ num | currency:’¥;’}}<br><strong>date（日期格式化）：</strong><br>&#123;{date | date:’yyyy-MM-dd hh:mm:ss EEEE’}}<br><strong>filter（匹配子串）：</strong><br>&#123;{ childrenArray | filter : ‘a’ }} // 匹配属性值中含有a的<br>&#123;{ childrenArray | filter : 4 }} // 匹配属性值中含有4的<br>&#123;{ childrenArray | filter : {name : ‘i’} }} // 参数是对象，匹配name属性中含有i的<br>&#123;{childrenArray | filter : func }} // 参数是函数，指定返回age&gt;4的<br>$scope.func = function(e) {return e.age&gt;4;}<br><strong>格式化json对象一般用来调试，看看输出的json串</strong><br>json<br><strong>limitTo（限制数组长度或字符串长度）：</strong>&#123;{ childrenArray | limitTo : 2 }} // 将会显示数组中的前两项<br><strong>lowercase（小写）</strong><br><strong>uppercase（大写）</strong><br><strong>number（格式化数字）</strong><br> &#123;{num | number:2}}// 保留2位小数<br><strong>orderBy（排序）</strong><br>&lt;div&gt;&#123;{ childrenArray | orderBy : ‘age’ }}&lt;/div&gt; // 按age属性值进行排序，若是-age，则倒序<br>&lt;div&gt;&#123;{ childrenArray | orderBy : orderFunc }}&lt;/div&gt; // 按照函数的返回值进行排序<br>&lt;div&gt;&#123;{ childrenArray | orderBy : [‘age’,’name’] }}&lt;/div&gt; // 如果age相同，按照name进行排序</p>
+        <h3 id="用redis维护token的思路："><a href="#用redis维护token的思路：" class="headerlink" title="用redis维护token的思路："></a>用redis维护token的思路：</h3><h4 id="存入"><a href="#存入" class="headerlink" title="存入"></a>存入</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 生成token</span></div><div class="line">String token = UUID.randomUUID().toString();</div><div class="line"><span class="comment">// 将对象转为Json串</span></div><div class="line">String json = JacksonUtils.newInstance().obj2json(user);</div><div class="line"><span class="comment">// 以token为key，对象为value缓存到redis</span></div><div class="line">jedisUtils.set(token, json, <span class="number">120</span> * <span class="number">60</span>);</div><div class="line"><span class="comment">// 将userId - token以key - value的形式放入到一个hash表中，这里最好遵循标准的命名规则：（项目：模块：形式）</span></div><div class="line">jedisUtils.hset(<span class="string">"project:sso:uid_token"</span>, <span class="string">"project:sso:"</span>.concat(user.getUserId()), token);</div></pre></td></tr></table></figure>
+<h4 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">String token = request.getHeader(<span class="string">"token"</span>);</div><div class="line"><span class="keyword">if</span>(<span class="keyword">null</span> != token &amp;&amp; StringUtils.isNotBlank(token)) &#123;</div><div class="line">	<span class="comment">// 获取key为token的对象，并续租token</span></div><div class="line">	String objJson = jedisUtils.get(token, <span class="number">120</span> * <span class="number">60</span>);</div><div class="line">	<span class="keyword">if</span> (objJson != <span class="keyword">null</span> &amp;&amp; StringUtils.isNotBlank(objJson)) &#123;</div><div class="line">		<span class="comment">// 获取对象</span></div><div class="line">		User user = JSON.parseObject(objJson, User.class);</div><div class="line">		<span class="keyword">if</span> (user != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="comment">// 通过userid获取hash表中的token，并续租</span></div><div class="line">			String val = jedisUtils.get(key, <span class="number">120</span> * <span class="number">60</span>);</div><div class="line">			<span class="keyword">if</span> (val.equals(token)) &#123;</div><div class="line">				<span class="comment">// 通过验证</span></div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				<span class="comment">// 不通过验证</span></div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="comment">// 不通过验证</span></div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="comment">// 不通过验证</span></div><div class="line">	&#125;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">	<span class="comment">// 提示需传token</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>如果只以键值的形式存储，会有以下几种问题：</strong><br>1、用户登录的时候重新分配了token，同一用户可重复登录<br>2、也可以以uid-token的形式存储，每次登录判断token是否一致，但这种就无法简略到只传token了<br><strong>用hash配合的逻辑</strong><br>1、存一对token-user<br>2、hash存uid-token<br>3、每次接收token后拿到user，用uid去获取token<br>4、比对两个token<br><strong>好处：</strong><br>B用户登录后，两个键值都改变了，A用户操作的时候用旧的token可以获取到user，但是hash中的token已经变了，所以验证不通过，因为设置了操作时效性，所以旧的token-user会在规定时间后失效，释放内存</p>
+<p><strong>附：</strong> jedisUtils工具类见【Java操作redis】文章</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/17/Angularjs内置过滤器/" data-id="cj28to7bt0005q42yvhfkkgy8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/03/使用redis维护token/" data-id="cj28to7dz0036q42y91qolekt" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
 
     </footer>
   </div>
@@ -105,19 +108,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/07/17/Java操作redis/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/05/03/AOP拦截Controller/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Java操作redis
+          AOP拦截Controller处理@RequestBody注入参数问题
         
       </div>
     </a>
   
   
-    <a href="/2016/07/09/原生数据库访问/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/04/21/Java下载文件损坏问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">原生数据库访问</div>
+      <div class="article-nav-title">Java下载文件损坏问题</div>
     </a>
   
 </nav>
