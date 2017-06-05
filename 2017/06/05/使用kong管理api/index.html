@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用kong管理api | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。详细资料见官网：https://getkong.org环境：ubuntu 16.041、下载kong：https://getkong.org/in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用kong管理api">
+<meta property="og:url" content="http://yoursite.com/2017/06/05/使用kong管理api/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。详细资料见官网：https://getkong.org环境：ubuntu 16.041、下载kong：https://getkong.org/in">
+<meta property="og:updated_time" content="2017-06-05T08:59:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用kong管理api">
+<meta name="twitter:description" content="摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。详细资料见官网：https://getkong.org环境：ubuntu 16.041、下载kong：https://getkong.org/in">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用kong管理api" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/05/使用kong管理api/" class="article-date">
+  <time datetime="2017-06-05T06:42:16.000Z" itemprop="datePublished">2017-06-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/kong/">kong</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用kong管理api
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><em>摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。</em><br>详细资料见官网：<a href="https://getkong.org" target="_blank" rel="external">https://getkong.org</a><br>环境：ubuntu 16.04<br>1、下载kong：<a href="https://getkong.org/install/" target="_blank" rel="external">https://getkong.org/install/</a> 在此页面选择你的系统，之后再下载相应的系统版本，因为我是 unbuntu 16.04，则下载<a href="https://github.com/Mashape/kong/releases/download/0.10.3/kong-0.10.3.xenial_all.deb" target="_blank" rel="external">https://github.com/Mashape/kong/releases/download/0.10.3/kong-0.10.3.xenial_all.deb</a></p>
+<p>2、安装kong，根据官网提示，执行下面三条命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get update</div><div class="line">$ sudo apt-get install openssl libpcre3 procps perl</div><div class="line">$ sudo dpkg -i kong-0.10.3.*.deb</div></pre></td></tr></table></figure></p>
+<p>3、kong的使用肯定需要存储一些自己的数据，目前支持PostgreSQL和Cassandra两种数据库，这里以postgresql为例进行安装</p>
+<p>3.1 添加postgresql源：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo touch /etc/apt/sources.list.d/pgdb.list</div><div class="line">$ sudo vim /etc/apt/sources.list.d/pgdb.list</div></pre></td></tr></table></figure></p>
+<p>3.2 将下文添加到pgdb.list中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deb https://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main</div></pre></td></tr></table></figure></p>
+<p>3.3 执行如下命令添加postgresql安装包的秘钥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo wget --quiet -O - https://postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -</div></pre></td></tr></table></figure></p>
+<p>3.4 安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install postgresql-9.4</div></pre></td></tr></table></figure></p>
+<p>3.5 验证是否成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ dpkg -l |grep postgresql</div></pre></td></tr></table></figure></p>
+<p>3.6 看到如下信息则为成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ii  pgdg-keyring                                2017.1                                     all          keyring for apt.postgresql.org</div><div class="line">ii  postgresql-9.4                              9.4.12-1.pgdg14.04+1                       amd64        object-relational SQL database, version 9.4 server</div><div class="line">ii  postgresql-client-9.4                       9.4.12-1.pgdg14.04+1                       amd64        front-end programs for PostgreSQL 9.4</div><div class="line">ii  postgresql-client-common                    182.pgdg14.04+1                            all          manager for multiple PostgreSQL client versions</div><div class="line">ii  postgresql-common                           182.pgdg14.04+1                            all          PostgreSQL database-cluster manager</div><div class="line">ii  postgresql-contrib-9.4                      9.4.12-1.pgdg14.04+1                       amd64        additional facilities for PostgreSQL</div></pre></td></tr></table></figure></p>
+<p>3.7 postgres是超级管理员，类似mysql的root和sqlserver的sa，一开始是没有密码的，用超级管理员登录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo -i -u postgres</div></pre></td></tr></table></figure></p>
+<p>3.8 创建一个数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">createdb kongdb</div></pre></td></tr></table></figure></p>
+<p>3.9 创建角色（这里我在psql工具中创建一直不成功不知为啥，所以用sql来创建）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create user kong</div></pre></td></tr></table></figure></p>
+<p>3.10 通过postgresql的客户端来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql</div></pre></td></tr></table></figure></p>
+<p>3.11 为”kong”用户设置密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">\password 123456</div></pre></td></tr></table></figure></p>
+<p>3.12 把数据库 kongdb的所有者设置为 kong<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter database kongdb owner to kong</div></pre></td></tr></table></figure></p>
+<p>3.13 介绍一下一些基本的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">\help 查看psql工具的命令</div><div class="line">\q 退出</div><div class="line">\du 查看所有用户（刚才创建后用这个查一下）</div><div class="line">\l 查看所有数据库（同上）</div></pre></td></tr></table></figure></p>
+<p>3.14 用 \q 命令退出并用kong用户登录kongdb数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -d kongdb -U kong -h 127.0.0.1 -W</div></pre></td></tr></table></figure></p>
+<p>3.15 这时会提示输入密码，输入刚才设置的123456即可</p>
+<p>4、为kong配置数据源，找到/usr/local/share/lua/5.1/kong/templates/中的kong_defaults.lua，将里面的pg_pssword = NONE改为刚才设置的123456，pg_database = kong改为刚才创建的kongdb，如果无意外的话，这里可以启动kong了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo kong start</div></pre></td></tr></table></figure></p>
+<p>5、查阅官网kong的api操作，不同版本可能参数不同，这里以0.10.x版本为例，详见： <a href="https://getkong.org/docs/0.10.x/getting-started/adding-your-api/" target="_blank" rel="external">https://getkong.org/docs/0.10.x/getting-started/adding-your-api/</a><br>6、安装curl，如果已经装过git可能会有冲突，我这里就遇到了，记录一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install curl</div></pre></td></tr></table></figure></p>
+<p>6.1 报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl : 依赖: libcurl3-gnutls (= 7.47.0-1ubuntu2) 但是 7.47.0-1ubuntu2.2 正要被安装</div></pre></td></tr></table></figure></p>
+<p>6.2 一开始不清楚原因，执行了$ sudo apt-get update，出现了如下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">E: 无法获得锁 /var/lib/apt/lists/lock - open (11: 资源暂时不可用) </div><div class="line">E: 无法对目录 /var/lib/apt/lists/ 加锁</div></pre></td></tr></table></figure></p>
+<p>6.3 解决方法，强制删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sudo rm /var/cache/apt/archives/lock</div><div class="line"></div><div class="line">$ sudo rm /var/lib/dpkg/lock</div></pre></td></tr></table></figure></p>
+<p>6.4 <strong>6.3、6.4两个操作其实是没必要的，只是作为记录</strong>这里说说6.1的问题，重新安装 sudo apt-get install libcurl3-gnutls是没用的，这里是包冲突，需要指定版本来安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install libcurl3-gnutls=7.47.0-1ubuntu2</div></pre></td></tr></table></figure></p>
+<p>6.5 安装完后再执行一下$ sudo apt-get install curl即可</p>
+<p>7、将业务侧的api加到kong中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i -X POST --url http://localhost:8001/apis/ --data &apos;name=test&apos; --data &apos;upstream_url=http://192.168.0.1:8080/&apos; --data &apos;uris=/&apos;</div></pre></td></tr></table></figure></p>
+<p>7.1 这里需要说明，根据官网/apis/接口request body参数说明中，hosts、uris、methods需要至少指定一个，不赘述<br>7.2 name指的是在kong api中的一个名字标识，具有唯一性，这里创建了test后，不允许再创建同名，若上方命令执行两次会报错<br>7.3 可以到/usr/local/kong/logs中查看日志</p>
+<p>8、然后就可以用kong来转发请求了，在<a href="https://getkong.org/docs/0.10.x/getting-started/adding-your-api/中有这么一句：" target="_blank" rel="external">https://getkong.org/docs/0.10.x/getting-started/adding-your-api/中有这么一句：</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Issue the following cURL request to verify that Kong is properly forwarding requests to your API. Note that by default Kong handles proxy requests on port :8000</div></pre></td></tr></table></figure></p>
+<p>所以这里可以用 <a href="http://localhost:8000/" target="_blank" rel="external">http://localhost:8000/</a> + 资源的方法访问<a href="http://192.168.0.1:8080/" target="_blank" rel="external">http://192.168.0.1:8080/</a> 下所有的资源</p>
+<p>9、Kong的一个非常诱人的地方就是提供了大量的插件来扩展应用，通过设置不同的插件可以为服务提供各种增强的功能。执行下面命令可以查看kong的所有插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i -X GET --url http://localhost:8001/plugins/enabled</div></pre></td></tr></table></figure></p>
+<p>9.1 用Rate Limiting来控制访问访问次数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i -X POST --url http://localhost:8001/apis/test/plugins/ --data &quot;name=rate-limiting&quot; --data &quot;config.minute=5&quot;</div></pre></td></tr></table></figure></p>
+<p>接着随访找一个接口连续访问6次，如 <a href="http://localhost:8000/test" target="_blank" rel="external">http://localhost:8000/test</a> 这个接口，第6次的时候就会提示 {“message”: “API rate limit exceeded”}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/05/使用kong管理api/" data-id="cj3jwomq2000k002ywgmq0iwo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kong/">kong</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/05/27/springboot+rabbitmq简单使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">springboot+rabbitmq简单使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kong/">kong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kong/">kong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mq/">mq</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/06/05/使用kong管理api/">使用kong管理api</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/27/springboot+rabbitmq简单使用/">springboot+rabbitmq简单使用</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/03/AOP拦截Controller/">AOP拦截Controller处理@RequestBody注入参数问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/03/使用redis维护token/">使用redis维护token</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/21/Java下载文件损坏问题/">Java下载文件损坏问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
