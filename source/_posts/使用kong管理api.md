@@ -56,6 +56,15 @@ $ sudo -i -u postgres
 ```
 createdb kongdb
 ```
+3.8.1 如果出现类似createdb: 无法联接到数据库 template1: 无法联接到服务器: 没有那个文件或目录
+	服务器是否在本地运行并且在 Unix 域套接字
+	"/var/run/postgresql/.s.PGSQL.5432"上准备接受联接?的错误则切回ubuntu的登录用户，执行下列操作
+```
+$ sudo service postgresql start
+$ sudo systemctl unmask postgresql
+$ sudo systemctl restart postgresql
+$ sudo service postgresql start
+```
 3.9 创建角色（这里我在psql工具中创建一直不成功不知为啥，所以用sql来创建）
 ```
 create user kong
@@ -138,3 +147,4 @@ curl -i -X GET --url http://localhost:8001/plugins/enabled
 curl -i -X POST --url http://localhost:8001/apis/test/plugins/ --data "name=rate-limiting" --data "config.minute=5"  
 ```
 接着随访找一个接口连续访问6次，如 http://localhost:8000/test 这个接口，第6次的时候就会提示 {"message": "API rate limit exceeded"}
+9.2 另外kong集成了Galileo和Datadog，只要有账号就可以监控一些数据，具体到各自官网了解详情，另外Runscope是收费的，没有试过。
