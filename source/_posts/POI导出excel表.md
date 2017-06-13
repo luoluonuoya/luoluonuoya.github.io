@@ -709,4 +709,4 @@ public class ExcelTest {
 }
 ```
 ##### 效果图（为了截到完整的数据图，调过列宽）
-![](image/POI导出excel表/excel导出效果图.jpg)
+![](/image/POI导出excel表/excel导出效果图.jpg)
