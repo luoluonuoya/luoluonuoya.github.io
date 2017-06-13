@@ -61,6 +61,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-SpringMvc接收参数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/17/SpringMvc接收参数/" class="article-date">
+  <time datetime="2016-07-17T06:27:48.000Z" itemprop="datePublished">2016-07-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/17/SpringMvc接收参数/">SpringMvc接收参数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="SpringMvc接收对象的方式"><a href="#SpringMvc接收对象的方式" class="headerlink" title="SpringMvc接收对象的方式"></a>SpringMvc接收对象的方式</h4><h5 id="1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application-json之类的类型就没有用了，需要读取request的流再解析出参数"><a href="#1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application-json之类的类型就没有用了，需要读取request的流再解析出参数" class="headerlink" title="1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数"></a>1、最普通的我们可以用HttpServletRequest对象来接收，但下面的方式我们只能用来接收键值对，对application/json之类的类型就没有用了，需要读取request的流再解析出参数</h5><p>request.getParameter(name);
+　</p>
+<h5 id="2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数"><a href="#2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数" class="headerlink" title="2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数"></a>2、但既然用了SpringMvc我们可以用注解的方式来获取各种参数</h5><p><strong>1）@PathVariable </strong><br>当使用@RequestMapping URI template 样式映射时， 即 someUrl/{paramId}, 这时的paramId可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user/&#123;operation&#125;"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/&#123;userId&#125;"</span>)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String operation, @PathVariable String userId, Model model)</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2）@RequestHeader </strong><br>@RequestHeader 注解，可以把Request请求header部分的值绑定到方法的参数上。<br>常见的header：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Accept:					image/webp,image/*,*/*;q=0.8</div><div class="line">Accept-Encoding:		gzip, deflate, sdch</div><div class="line">Accept-Language:		zh-CN,zh;q=0.8</div><div class="line">Host:					localhost:8080</div><div class="line">Accept-Charset          ISO-8859-1,utf-8;q=0.7,*;q=0.7</div><div class="line">Keep-Alive              300</div></pre></td></tr></table></figure></p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/getlist"</span>)  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(</span></span></div><div class="line">		@RequestHeader(<span class="string">"Accept-Encoding"</span>) String encoding, </div><div class="line">		@<span class="title">RequestHeader</span><span class="params">(<span class="string">"Keep-Alive"</span>)</span> <span class="keyword">long</span> keepAlive) &#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>3）@CookieValue </strong><br>@CookieValue 可以把Request header中关于cookie的值绑定到方法的参数上。<br>例如有如下Cookie值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSESSIONID=070c17a0028d1dcc66eba40e7781d177</div></pre></td></tr></table></figure></p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>)  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@CookieValue(<span class="string">"JSESSIONID"</span>)</span> String cookie) </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>4）@RequestParam</strong><br>@RequestParam等同于request.getParameter();<br>@RequestParam用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式为GET、POST；<br>@RequestParam有两个属性：<br>　value：用来指定要传入值的name<br>　required：用来指定参数是否必须<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.GET)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestParam(<span class="string">"userId"</span>)</span> String userId) </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>5）@RequestBody</strong><br>像ajax原生的请求就是application/json类型，此时用@RequestBody就十分合适<br>@RequestBody常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；<br><strong>但是注意springmvc4.2版本才能直接转对象，4.2之前只能接收String</strong><br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="comment">// 4.2之前接收String</span></div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestBody String body)</span> </span>&#123;</div><div class="line">		User user = (User) JSON.parse(body);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">// 4.2之后接收bean</span></div><div class="line">		<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestBody User user)</span> </span>&#123;</div><div class="line">			<span class="keyword">return</span> user.getName(); </div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>6）@SessionAttributes</strong><br>@SessionAttribute用来绑定HttpSession中的attribute对象的值，便于在方法中的参数里使用。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="meta">@SessionAttributes</span>(<span class="string">"userId"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">()</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>7）@ModelAttribute</strong><br>@ModelAttribute可以用在方法上也可以用在参数上，@ModelAttribute只能获取键值对，即接收的Content-Type是from-data或者application/x-www-form等类型<br>首先是用在方法上时，相当于为request对象的model里put(“account”, Account);<br>如此在使用@RequestParam时就不需要带上参数名了<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="meta">@ModelAttribute</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@RequestParam String userId)</span> </span>&#123;</div><div class="line">	  <span class="keyword">return</span> accountManager.findAccount(userId);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果是在参数上时，一般来说，我们需要的是request中的参数，所以这里说明一下，@ModelAttribute绑定参数的来源<br>　A） 首先是 @SessionAttributes 上绑定的attribute 对象<br>　B） 没有就查询@ModelAttribute 用于方法上时指定的model对象<br>　C） 当两种情况都没有时，new一个需要绑定的bean对象，然后把request中按名称对应的方式把值绑定到bean中。<br>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">  </div><div class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/login"</span>, method = RequestMethod.POST)</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@ModelAttribute User user)</span> </span>&#123;</div><div class="line">	  <span class="comment">// TODO </span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/17/SpringMvc接收参数/" data-id="cj3uvf20d001cv02ynt13izde" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Java操作redis" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/07/17/Java操作redis/" class="article-date">
@@ -100,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/17/Java操作redis/" data-id="cj3jwomsz003j002yt4xelyjd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/07/17/Java操作redis/" data-id="cj3uvf205000tv02ypbuazmnl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -143,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/17/Angularjs内置过滤器/" data-id="cj3jwompp0005002yivzrvbw7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/07/17/Angularjs内置过滤器/" data-id="cj3uvf1zp0005v02yg7euq3o9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
@@ -191,7 +245,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/09/原生数据库访问/" data-id="cj3jwomti003z002yuukpu63z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/07/09/原生数据库访问/" data-id="cj3uvf21j003nv02yr6aeblqq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -246,7 +300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/12/tomcat配置https单-双向验证/" data-id="cj3jwomri0023002yza51k8l1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/12/tomcat配置https单-双向验证/" data-id="cj3uvf2170032v02y1ye66uy0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
@@ -289,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/11/StaleStateException/" data-id="cj3jwomr4001e002ym7i87hha" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/06/11/StaleStateException/" data-id="cj3uvf20j001nv02yrjugmxp8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hibernate/">hibernate</a></li></ul>
@@ -336,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/05/22/获取URL链接的文件类型/" data-id="cj3jwomrl0028002ywk2xpgpb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/05/22/获取URL链接的文件类型/" data-id="cj3uvf21r0040v02yovo9z4br" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -384,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/05/01/mysql 1044 错误/" data-id="cj3jwomqh000x002ywibid2o5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/05/01/mysql 1044 错误/" data-id="cj3uvf211002mv02yx8hkfeaz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
@@ -427,7 +481,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/16/判断浏览器版本/" data-id="cj3jwomrd001v002ytwvfkbxf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/16/判断浏览器版本/" data-id="cj3uvf21d003hv02y98755a5p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
@@ -470,59 +524,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/JDK1.7特性/" data-id="cj3jwomrv002e002yo5qoork2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-log4j发邮件配置" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/04/08/log4j发邮件配置/" class="article-date">
-  <time datetime="2016-04-08T01:12:09.000Z" itemprop="datePublished">2016-04-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/08/log4j发邮件配置/">Log4j发邮件配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>引入log4j.jar包，这里解释一下三个包的关系：<br><strong>slf4j-api</strong> 本质就是一个接口定义<br><strong>slf4j-log4j12</strong> 是链接slf4j-api和log4j中间的适配器。它实现了slf4j-api中StaticLoggerBinder接口，从而使得在编译时绑定的是slf4j-log4j12的getSingleton()方法<br><strong>log4j</strong> 是具体的日志系统。通过slf4j-log4j12初始化Log4j，达到最终日志的输出。</p>
-<p>slf4j和log4j经常存在冲突的现在，需要在网上下载对应的版本，以下为无冲突的版本实例<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.7.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>log4j.properties文件配置<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">log4j.rootLogger=INFO,stdout,R</div><div class="line"></div><div class="line">#输出到控制台</div><div class="line">log4j.appender.stdout=org.apache.log4j.ConsoleAppender</div><div class="line">log4j.appender.stdout.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.stdout.layout.ConversionPattern=%d %5p [%F:%L] : %m%n</div><div class="line"></div><div class="line">#输出到日志文件</div><div class="line">log4j.appender.R=org.apache.log4j.DailyRollingFileAppender</div><div class="line">#日志文件只输出WARN级别以上的日志</div><div class="line">log4j.appender.R.Threshold=ERROR</div><div class="line">#日志文件输出路径</div><div class="line">log4j.appender.R.File=/usr/local/tomcat7/logs/web/xxx.log</div><div class="line">#日志输出格式</div><div class="line">log4j.appender.R.DatePattern='.'yyyy-MM-dd</div><div class="line">log4j.appender.R.Append=true</div><div class="line">log4j.appender.R.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.R.layout.ConversionPattern=[%-5p][%d&#123;yyyyMMdd HH:mm:ss,SSS&#125;][%C&#123;1&#125;:%L] %m%n</div></pre></td></tr></table></figure></p>
-<p>如果需要利用日志发送邮件，添加activation.jar、mail.jar两个包<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.activation<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>activation<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.mail<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>然后配置文件中加入<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">#log4j的邮件发送appender</div><div class="line">log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender</div><div class="line">#发送邮件的门槛，仅当等于或高于ERROR（比如FATAL）时，邮件才被发送</div><div class="line">log4j.appender.MAIL.Threshold=ERROR</div><div class="line">#缓存文件大小，日志达到1000k时发送Email，但如果是ERROR或FATAL则立即发送  </div><div class="line">log4j.appender.MAIL.BufferSize=1024KB</div><div class="line">#此处发送邮件的邮箱帐号</div><div class="line">log4j.appender.MAIL.From=发送者的邮箱地址，比如xxxemail@163.com</div><div class="line">#SMTP邮件发送服务器地址（这里以网易邮箱举例，比如谷歌就会是smtp.gmail.com）</div><div class="line">log4j.appender.MAIL.SMTPHost=smtp.163.com</div><div class="line">#SMTP发送认证的帐号名，邮箱的名称（不包含@163.com后面的信息）</div><div class="line">log4j.appender.MAIL.SMTPUsername=xxxemail</div><div class="line">#SMTP发送认证帐号的密码，邮箱的密码</div><div class="line">log4j.appender.MAIL.SMTPPassword=发送者的邮箱密码，比如123456789</div><div class="line">#是否打印调试信息，如果选true，则会输出和SMTP之间的握手等详细信息</div><div class="line">log4j.appender.MAIL.SMTPDebug=true</div><div class="line">#邮件主题</div><div class="line">log4j.appender.MAIL.Subject=xxx项目错误日志</div><div class="line">#发送到什么邮箱，如果要发送给多个邮箱，则用逗号分隔； </div><div class="line">log4j.appender.MAIL.To=xxx1@qq.com,xxx2@163.com,xxx3@gmail.com</div><div class="line">#日志格式</div><div class="line">log4j.appender.MAIL.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.MAIL.layout.ConversionPattern=[framework]%d - %c -%-4r[%t]%-5p %c %x -%m%n</div></pre></td></tr></table></figure></p>
-<p>如果顺利的话可以正常的发送，但可能会有特殊情况，比如标题乱码（也可能是版本低了），则可以重写 SMTPAppender </p>
-<p><strong>看到配置中log4j.appender.MAIL=org.apache.log4j.net.SMTPAppender这一句，这里就是 log4j 输出的控制类，如果有其它个性化的定制，比如认证信息的处理等，都是通过重写SMTPAppender来实现。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 邮件标题乱码问题</span></div><div class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</div><div class="line"><span class="keyword">import</span> org.apache.log4j.net.SMTPAppender;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EncodingSMTPAppender</span> <span class="keyword">extends</span> <span class="title">SMTPAppender</span> </span>&#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubject</span><span class="params">(String subject)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			subject = <span class="keyword">new</span> String(subject.getBytes(<span class="string">"iso8859-1"</span>), <span class="string">"utf-8"</span>);</div><div class="line">		&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">super</span>.setSubject(subject);</div><div class="line">	&#125;	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>还有一个最常见的错误，配置完后发现若发送邮件失败 log4j: ERROR Error occured while sending e-mail notification.则是发送的邮箱没有开启stmp服务</p>
-<p><strong>像网易邮箱默认是没有开启smtp服务的，进入 邮箱-设置-POP3/SMTP/IMAP 中，把POP3/SMTP服务和IMAP/SMTP服务都勾选上</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/log4j发邮件配置/" data-id="cj3jwoms3002p002yancrr2ri" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/JDK1.7特性/" data-id="cj3uvf1zu000fv02ykze37rix" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
@@ -547,7 +549,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kong/">kong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swimming/">Swimming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kong/">kong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
     </div>
   </div>
 
@@ -557,7 +559,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kong/">kong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mq/">mq</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swimming/">Swimming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kong/">kong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mq/">mq</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
     </div>
   </div>
 
@@ -567,7 +569,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Swimming/" style="font-size: 10px;">Swimming</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
     </div>
   </div>
 
@@ -589,6 +591,10 @@
       <ul>
         
           <li>
+            <a href="/2017/06/10/游泳攻略/">游泳攻略</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/05/使用kong管理api/">使用kong管理api</a>
           </li>
         
@@ -602,10 +608,6 @@
         
           <li>
             <a href="/2017/05/03/使用redis维护token/">使用redis维护token</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/21/Java下载文件损坏问题/">Java下载文件损坏问题</a>
           </li>
         
       </ul>

@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/05/使用kong管理api/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。详细资料见官网：https://getkong.org环境：ubuntu 16.041、下载kong：https://getkong.org/in">
-<meta property="og:updated_time" content="2017-06-05T08:59:07.000Z">
+<meta property="og:updated_time" content="2017-06-13T01:09:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用kong管理api">
 <meta name="twitter:description" content="摘要：Kong，Mashape开源的API层。是基于Nginx_Lua模块写的。是一个基于openresty的api代理层，数据采用了 Apache Cassandra/PostgreSQL存储，并且提供了一些优秀的插件，比如验证，日志，调用频次限制等。详细资料见官网：https://getkong.org环境：ubuntu 16.041、下载kong：https://getkong.org/in">
@@ -100,6 +100,7 @@
 <p>3.6 看到如下信息则为成功<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ii  pgdg-keyring                                2017.1                                     all          keyring for apt.postgresql.org</div><div class="line">ii  postgresql-9.4                              9.4.12-1.pgdg14.04+1                       amd64        object-relational SQL database, version 9.4 server</div><div class="line">ii  postgresql-client-9.4                       9.4.12-1.pgdg14.04+1                       amd64        front-end programs for PostgreSQL 9.4</div><div class="line">ii  postgresql-client-common                    182.pgdg14.04+1                            all          manager for multiple PostgreSQL client versions</div><div class="line">ii  postgresql-common                           182.pgdg14.04+1                            all          PostgreSQL database-cluster manager</div><div class="line">ii  postgresql-contrib-9.4                      9.4.12-1.pgdg14.04+1                       amd64        additional facilities for PostgreSQL</div></pre></td></tr></table></figure></p>
 <p>3.7 postgres是超级管理员，类似mysql的root和sqlserver的sa，一开始是没有密码的，用超级管理员登录<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo -i -u postgres</div></pre></td></tr></table></figure></p>
 <p>3.8 创建一个数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">createdb kongdb</div></pre></td></tr></table></figure></p>
+<p>3.8.1 如果出现类似createdb: 无法联接到数据库 template1: 无法联接到服务器: 没有那个文件或目录<br>    服务器是否在本地运行并且在 Unix 域套接字<br>    “/var/run/postgresql/.s.PGSQL.5432”上准备接受联接?的错误则切回ubuntu的登录用户，执行下列操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo service postgresql start</div><div class="line">$ sudo systemctl unmask postgresql</div><div class="line">$ sudo systemctl restart postgresql</div><div class="line">$ sudo service postgresql start</div></pre></td></tr></table></figure></p>
 <p>3.9 创建角色（这里我在psql工具中创建一直不成功不知为啥，所以用sql来创建）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create user kong</div></pre></td></tr></table></figure></p>
 <p>3.10 通过postgresql的客户端来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql</div></pre></td></tr></table></figure></p>
 <p>3.11 为”kong”用户设置密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">\password 123456</div></pre></td></tr></table></figure></p>
@@ -120,12 +121,12 @@
 <p>所以这里可以用 <a href="http://localhost:8000/" target="_blank" rel="external">http://localhost:8000/</a> + 资源的方法访问<a href="http://192.168.0.1:8080/" target="_blank" rel="external">http://192.168.0.1:8080/</a> 下所有的资源</p>
 <p>9、Kong的一个非常诱人的地方就是提供了大量的插件来扩展应用，通过设置不同的插件可以为服务提供各种增强的功能。执行下面命令可以查看kong的所有插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i -X GET --url http://localhost:8001/plugins/enabled</div></pre></td></tr></table></figure></p>
 <p>9.1 用Rate Limiting来控制访问访问次数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -i -X POST --url http://localhost:8001/apis/test/plugins/ --data &quot;name=rate-limiting&quot; --data &quot;config.minute=5&quot;</div></pre></td></tr></table></figure></p>
-<p>接着随访找一个接口连续访问6次，如 <a href="http://localhost:8000/test" target="_blank" rel="external">http://localhost:8000/test</a> 这个接口，第6次的时候就会提示 {“message”: “API rate limit exceeded”}</p>
+<p>接着随访找一个接口连续访问6次，如 <a href="http://localhost:8000/test" target="_blank" rel="external">http://localhost:8000/test</a> 这个接口，第6次的时候就会提示 {“message”: “API rate limit exceeded”}<br>9.2 另外kong集成了Galileo和Datadog，只要有账号就可以监控一些数据，具体到各自官网了解详情，另外Runscope是收费的，没有试过。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/05/使用kong管理api/" data-id="cj3jwomq2000k002ywgmq0iwo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/05/使用kong管理api/" data-id="cj3uvf2190037v02ymhp5a5wo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kong/">kong</a></li></ul>
@@ -135,6 +136,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/06/10/游泳攻略/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          游泳攻略
+        
+      </div>
+    </a>
   
   
     <a href="/2017/05/27/springboot+rabbitmq简单使用/" id="article-nav-older" class="article-nav-link-wrap">
@@ -155,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kong/">kong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AngularJs/">AngularJs</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swimming/">Swimming</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/eclipse/">eclipse</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/kong/">kong</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a></li></ul>
     </div>
   </div>
 
@@ -165,7 +175,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kong/">kong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mq/">mq</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJs/">AngularJs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMvc/">SpringMvc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Srping-boot/">Srping boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swimming/">Swimming</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tomcat/">Tomcat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/">api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/excel/">excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hibernate/">hibernate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kong/">kong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/">maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mq/">mq</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/springboot/">springboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a></li></ul>
     </div>
   </div>
 
@@ -175,7 +185,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
+      <a href="/tags/AngularJs/" style="font-size: 10px;">AngularJs</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/SpringMvc/" style="font-size: 12.5px;">SpringMvc</a> <a href="/tags/Srping-boot/" style="font-size: 10px;">Srping boot</a> <a href="/tags/Swimming/" style="font-size: 10px;">Swimming</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/eclipse/" style="font-size: 17.5px;">eclipse</a> <a href="/tags/excel/" style="font-size: 10px;">excel</a> <a href="/tags/hibernate/" style="font-size: 10px;">hibernate</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/kong/" style="font-size: 10px;">kong</a> <a href="/tags/maven/" style="font-size: 12.5px;">maven</a> <a href="/tags/mq/" style="font-size: 10px;">mq</a> <a href="/tags/mybatis/" style="font-size: 10px;">mybatis</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a>
     </div>
   </div>
 
@@ -197,6 +207,10 @@
       <ul>
         
           <li>
+            <a href="/2017/06/10/游泳攻略/">游泳攻略</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/05/使用kong管理api/">使用kong管理api</a>
           </li>
         
@@ -210,10 +224,6 @@
         
           <li>
             <a href="/2017/05/03/使用redis维护token/">使用redis维护token</a>
-          </li>
-        
-          <li>
-            <a href="/2017/04/21/Java下载文件损坏问题/">Java下载文件损坏问题</a>
           </li>
         
       </ul>
