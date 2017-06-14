@@ -100,11 +100,11 @@ busuanzi: true ## If you want to use Busuanzi page views please set the value to
 
 # About page
 about:
-  photo_url: http://obzf7z93c.bkt.clouddn.com/themeauthor.jpg
+  photo_url: http://i4.piimg.com/1949/dd54e930dd8f2215.jpg
   items:
-#  - label: email
-#    url: ## Your email with mailto: e.g.  mailto:zhenggchaoo@gmail.com
-#    title: zhangfs_sl@163.com
+  - label: email
+    url: mailto:zhangfs_sl@163.com
+    title: zhangfs_sl@163.com
   - label: github
     url: https://github.com/luoluonuoya
     title: luoluonuoya
