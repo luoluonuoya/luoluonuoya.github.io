@@ -106,8 +106,6 @@ public Result auth(@RequestParam("username") String username,
 	try {
 		// 这里写死验证条件，根据需要去验证
 		if (username.equals("zfs") && password.equals("123456")) {
-			// url不能写死，要当成参数传进来，这个url是你要访问的api再加端点，如我这里要访问的是https://localhost:8443下的资源，所以这里url为https://localhost:8443/oauth2/token（kong提供了/oauth2/authorize和/oauth2/token两个，这里不是code模式，不需要/oauth2/authorize，这些都是需要用post访问的）
-			URL realUrl = new URL(url);
 			Map<String,Object> param = new HashMap<String,Object>();
 			// 这些在创建consumers的application的时候会生成
 			param.put("client_id", "9b120e441c664526a179e64f5fae9d61");
@@ -133,113 +131,95 @@ public Result auth(@RequestParam("username") String username,
 ```
 验证服务器验证通过后发送请求到kong的OAuth2 接口，kong会下发token给请求的用户
 ```
-public static String sendHttps(String SYS_VULLN_URL_JSON, Map<String,Object> param) throws Exception {  
-        InputStream in = null;  
-        OutputStream out = null;  
-        String returnValue = "";  
-		BufferedReader br= null;	
-		String result = "";
-		
-        StringBuffer tempStr = new StringBuffer();  
-        String responseContent="";  
-        HttpURLConnection conn = null;  
-        
-        try {
-	        // 这里ssl要自己写，因为这是一个SSL版本问题。服务器只支持SSLv3，而Java将从v2开始，并尝试向上协商，但并非所有服务器都支持这种类型的协商。在网上找答案说使用SSLv3是目前唯一的解决方案，默认是TLS1，会报connect reast的错误，具体的tomcat对应关系见https://blogs.oracle.com/java-platform-group/diagnosing-tls,-ssl,-and-https，我这里是tomcat7，所以设置为TLSv1.2
-            System.setProperty("https.protocols", "TLSv1.2");  
-            SSLContext sc = SSLContext.getInstance("TLSv1.2");  
-            sc.init(null, new TrustManager[] { new MyX509TrustManager() }, new java.security.SecureRandom());  
-            URL url = new URL(SYS_VULLN_URL_JSON);  
-            
-            HttpsURLConnection https = (HttpsURLConnection)url.openConnection();  
-           if (url.getProtocol().toLowerCase().equals("https")) {  
-               https.setHostnameVerifier(
-               		new HostnameVerifier() {  
-							@Override
-							public boolean verify(String hostname,
-									SSLSession session) {
-								return false;
-							}  
-               		});  
-               conn = https;  
-           } else {  
-               conn = (HttpURLConnection) url.openConnection();  
-           }  
-           ((HttpsURLConnection) conn).setSSLSocketFactory(sc.getSocketFactory());  
-           ((HttpsURLConnection) conn).setHostnameVerifier(new TrustAnyHostnameVerifier()); 
-           
-         //设置请求的参数
-         String post = "";
-         if(null != param && param.size() > 0) {
-	         Set<Entry<String, Object>> entrys = param.entrySet();
-	         for(Entry<String, Object> entry : entrys){
-		         String key = StringUtil.objToStr(entry.getKey());
-		         String val = StringUtil.objToStr(entry.getValue());
-		         post += key + "=" + val + "&";
+public static String sendHttps(String forwardUrl, Map<String, Object> param)
+			throws Exception {
+	// forwardUrl不能写死，要当成参数传进来，这个url是你要访问的api再加端点，如我这里要访问的是https://localhost:8443下的资源，所以这里url为https://localhost:8443/oauth2/token（kong提供了/oauth2/authorize和/oauth2/token两个，这里不是code模式，不需要/oauth2/authorize，这些都是需要用post访问的）
+	HttpURLConnection conn = null;
+
+	try {
+		// 这里ssl要自己写，因为这是一个SSL版本问题。服务器只支持SSLv3，而Java将从v2开始，并尝试向上协商，但并非所有服务器都支持这种类型的协商。在网上找答案说使用SSLv3是目前唯一的解决方案，默认是TLS1，会报connect reast的错误，具体的tomcat对应关系见https://blogs.oracle.com/java-platform-group/diagnosing-tls,-ssl,-and-https，我这里是tomcat7，所以设置为TLSv1.2
+		System.setProperty("https.protocols", "TLSv1.2");
+		SSLContext sc = SSLContext.getInstance("TLSv1.2");
+		sc.init(null, new TrustManager[] { new MyX509TrustManager() },
+				new java.security.SecureRandom());
+		URL url = new URL(forwardUrl);
+
+		HttpsURLConnection https = (HttpsURLConnection) url
+				.openConnection();
+		if (url.getProtocol().toLowerCase().equals("https")) {
+			// 这里信任所有证书
+			https.setHostnameVerifier(new HostnameVerifier() {
+				@Override
+				public boolean verify(String hostname, SSLSession session) {
+					return false;
+				}
+			});
+			conn = https;
+		} else {
+			conn = (HttpURLConnection) url.openConnection();
+		}
+		((HttpsURLConnection) conn).setSSLSocketFactory(sc
+				.getSocketFactory());
+		((HttpsURLConnection) conn)
+				.setHostnameVerifier(new TrustAnyHostnameVerifier());
+
+		// 设置请求的参数
+		String post = "";
+		if (null != param && param.size() > 0) {
+			Set<Entry<String, Object>> entrys = param.entrySet();
+			for (Entry<String, Object> entry : entrys) {
+				String key = StringUtil.objToStr(entry.getKey());
+				String val = StringUtil.objToStr(entry.getValue());
+				post += key + "=" + val + "&";
 			}
 			post = post.substring(0, post.length() - 1);
 		}
-           
-           conn.setRequestMethod("POST");// 提交模式
-           // 发送POST请求必须设置如下两行
-           conn.setDoOutput(true);
-           conn.setDoInput(true);
-           // 获取URLConnection对象对应的输出流
-           PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
-           // 发送请求参数
-           printWriter.write(post);//post的参数 xx=xx&yy=yy
-           // flush输出流的缓冲
-           printWriter.flush();
-           conn.connect();
-           //开始获取数据
-           BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-           ByteArrayOutputStream bos = new ByteArrayOutputStream();
-           int len;
-           byte[] arr = new byte[1024];
-           while((len=bis.read(arr))!= -1){
-               bos.write(arr,0,len);
-               bos.flush();
-           }
-           bos.close();
-           return bos.toString("utf-8");
-        } catch (Exception e) {  
-            throw e;  
-        } finally {  
-            try {  
-                in.close();  
-            } catch (Exception e) {  
-            }  
-            try {  
-                out.close();  
-            } catch (Exception e) {  
-            }  
-        }  
-    }
-```
 
-```
-// 这个方法的作用是信任所有的证书，因为上面申请的证书并不是合规的，实际开发是不需要这样的
-private static void trustAllHosts() {
-	TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-			return new java.security.cert.X509Certificate[] {};
+		conn.setRequestMethod("POST");// 提交模式
+		// 发送POST请求必须设置如下两行
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		// 获取URLConnection对象对应的输出流
+		PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
+		// 发送请求参数
+		printWriter.write(post);// post的参数 xx=xx&yy=yy
+		// flush输出流的缓冲
+		printWriter.flush();
+		conn.connect();
+		// 开始获取数据
+		BufferedInputStream bis = new BufferedInputStream(
+				conn.getInputStream());
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		int len;
+		byte[] arr = new byte[1024];
+		while ((len = bis.read(arr)) != -1) {
+			bos.write(arr, 0, len);
+			bos.flush();
 		}
-		public void checkClientTrusted(X509Certificate[] chain,
-			String authType) {
-		}
-		public void checkServerTrusted(X509Certificate[] chain,
-			String authType) {
-		}
-	} };
-	try {
-		SSLContext sc = SSLContext.getInstance("TLS");
-		sc.init(null, trustAllCerts, new java.security.SecureRandom());
-		HttpsURLConnection
-				.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		bos.close();
+		return bos.toString("utf-8");
 	} catch (Exception e) {
-		e.printStackTrace();
+		throw e;
 	}
-} 
+}
+
+private static class MyX509TrustManager implements X509TrustManager {
+	public void checkClientTrusted(X509Certificate[] chain, String authType)
+			throws CertificateException {
+	}
+	public void checkServerTrusted(X509Certificate[] chain, String authType)
+			throws CertificateException {
+	}
+	public X509Certificate[] getAcceptedIssuers() {
+		return null;
+	}
+}
+
+private static class TrustAnyHostnameVerifier implements HostnameVerifier {
+	public boolean verify(String hostname, SSLSession session) {
+		return true;
+	}
+}
 ```
 认证服务器写完，开始验证
 ```
