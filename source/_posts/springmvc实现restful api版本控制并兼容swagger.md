@@ -1,4 +1,4 @@
----
+﻿---
 title: springmvc实现restful api版本控制并兼容swagger
 date: 2017-11-10 14:00:26
 categories: [Java]
@@ -300,7 +300,7 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 }
 ```
 从getMappingForMethod方法可以知道，springmvc是先读取方法上的@RequestMapping上的value，再读类上@RequestMapping上的value，然后两个值拼接在一起，理论上是可以在生成RequestMappingInfo后通过反射修改RequestMappingInfo里的值来达到目的的，这里想折腾一下，从createRequestMappingInfo的时候入手，通过改变注解上的value来达到效果，修改CustomRequestMappingHandlerMapping类如下
-```
+```Java
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
